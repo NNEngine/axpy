@@ -440,6 +440,49 @@ struct Vector *vec_math_tanh(const struct Vector *vector)
     return new_vector;
 }
 
+struct Vector *vec_math_loge(const struct Vector*vector)
+{
+    if(!vector || !vector->data || vector->size ==0) return NULL;
+
+    struct Vector *new_vector = vec_alloc(vector->size);
+    if(!new_vector) return NULL;
+
+    for (size_t i = 0; i < vector->size; i++){
+        new_vector->data[i] = log(vector->data[i]);
+    }
+
+    return new_vector;
+}
+
+struct Vector *vec_math_log(const struct Vector *vector, double base)
+{
+    if(!vector || !vector->data || vector->size == 0) return NULL;
+    if(base <= 1.0) return NULL;
+
+    struct Vector *new_vector = vec_alloc(vector->size);
+    if(!new_vector) return NULL;
+
+    double log_base = log(base);
+
+    for(size_t i = 0; i < vector->size; i++){
+        new_vector->data[i] = log(vector->data[i]) / log_base;
+    }
+    return new_vector;
+}
+
+struct Vector *vec_math_exp(const struct Vector *vector)
+{
+    if(!vector || !vector->data || vector->size == 0) return NULL;
+
+    struct Vector *new_vector = vec_alloc(vector->size);
+    if(!new_vector) return NULL;
+
+    for(size_t i = 0; i < vector->size; i++){
+        new_vector->data[i] = exp(vector->data[i]);
+    }
+    return new_vector;
+}
+
 /* ===================================================
             Vector Math Operations (inplace)
    ===================================================*/
@@ -447,7 +490,7 @@ int vec_math_pow_inplace(struct Vector *vector, double power)
 {
     if(!vector || !vector->data || vector->size == 0) return NULL;
 
-    for(size_t i = 0; i < size; i++){
+    for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = pow(vector->data[i], power);
     }
     return 0;
@@ -457,7 +500,7 @@ int vec_math_sqrt_inplace(struct Vector *vector)
 {
     if(!vector || !vector->data || vector->size == 0) return NULL;
 
-    for(size_t i = 0; i < size; i++){
+    for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = sqrt(vector->data[i]);
     }
     return 0;
@@ -467,7 +510,7 @@ int vec_math_cbrt_inplace(struct Vector *vector)
 {
     if(!vector || !vector->data || vector->size == 0) return NULL;
 
-    for(size_t i = 0; i < size; i++){
+    for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = cbrt(vector->data[i]);
     }
     return 0;
@@ -477,17 +520,17 @@ int vec_math_sin_inplace(struct Vector *vector)
 {
     if(!vector || !vector->data || vector->size == 0) return NULL;
 
-    for(size_t i = 0; i < size; i++){
+    for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = sin(vector->data[i]);
     }
-    return 0;||
+    return 0;
 }
 
 int vec_math_cos_inplace(struct Vector *vector)
 {
     if(!vector || !vector->data || vector->size == 0) return NULL;
 
-    for(size_t i = 0; i < size; i++){
+    for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = cos(vector->data[i]);
     }
     return 0;
@@ -497,7 +540,7 @@ int vec_math_tan_inplace(struct Vector *vector)
 {
     if(!vector || !vector->data || vector->size == 0) return NULL;
 
-    for(size_t i = 0; i < size; i++){
+    for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = tan(vector->data[i]);
     }
     return 0;
@@ -508,7 +551,7 @@ int vec_math_asin_inplace(struct Vector *vector)
 {
     if(!vector || !vector->data || vector->size == 0) return NULL;
 
-    for(size_t i = 0; i < size; i++){
+    for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = asin(vector->data[i]);
     }
     return 0;
@@ -518,7 +561,7 @@ int vec_math_acos_inplace(struct Vector *vector)
 {
     if(!vector || !vector->data || vector->size == 0) return NULL;
 
-    for(size_t i = 0; i < size; i++){
+    for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = acos(vector->data[i]);
     }
     return 0;
@@ -528,7 +571,7 @@ int vec_math_atan_inplace(struct Vector *vector)
 {
     if(!vector || !vector->data || vector->size == 0) return NULL;
 
-    for(size_t i = 0; i < size; i++){
+    for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = atan(vector->data[i]);
     }
     return 0;
@@ -548,7 +591,7 @@ int vec_math_cosh_inplace(struct Vector *vector)
 {
     if(!vector || !vector->data || vector->size == 0) return NULL;
 
-    for(size_t i = 0; i < size; i++){
+    for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = cosh(vector->data[i]);
     }
     return 0;
@@ -558,13 +601,44 @@ int vec_math_tanh_inplace(struct Vector *vector)
 {
     if(!vector || !vector->data || vector->size == 0) return NULL;
 
-    for(size_t i = 0; i < size; i++){
+    for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = tanh(vector->data[i]);
     }
     return 0;
 }
 
+int vec_math_loge_inplace(struct Vector *vector)
+{
+    if(!vector || !vector->data || vector->size == 0) return NULL;
 
+    for(size_t i = 0; i < vector->size; i++){
+        vector->data[i] = log(vector->data[i]);
+    }
+    return 0;
+}
+
+int vec_math_log_inplace(struct Vector *vector, double base)
+{
+    if(!vector || !vector->data || vector->size == 0) return NULL;
+    if(base <= 1.0) return NULL;
+
+    double log_base = log(base);
+
+    for(size_t i = 0; i < vector->size; i++){
+        vector->data[i] = log(vector->data[i]) / log_base;
+    }
+    return 0;
+}
+
+int vec_math_exp_inplace(struct Vector *vector)
+{
+    if(!vector || !vector->data || vector->size == 0) return NULL;
+
+    for(size_t i = 0; i < vector->size; i++){
+        vector->data[i] = exp(vector->data[i]);
+    }
+    return 0;
+}
 
 
 /* ====================================================

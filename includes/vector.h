@@ -51,7 +51,9 @@ struct Vector *vec_math_atan(const struct Vector *vector);
 struct Vector *vec_math_sinh(const struct Vector *vector);
 struct Vector *vec_math_cosh(const struct Vector *vector);
 struct Vector *vec_math_tanh(const struct Vector *vector);
-struct Vector *vec_math_log(const struct Vector *vector);
+struct Vector *vec_math_loge(const struct Vector *vector);
+struct Vector *vec_math_log(const struct Vector *vector, double base);
+struct Vector *vec_math_exp(const struct Vector *vector);
 
 /* math Functions  (inplace)*/
 int vec_math_pow_inplace(struct Vector *vector, double power);
@@ -66,8 +68,9 @@ int vec_math_atan_inplace(struct Vector *vector);
 int vec_math_sinh_inplace(struct Vector *vector);
 int vec_math_cosh_inplace(struct Vector *vector);
 int vec_math_tanh_inplace(struct Vector *vector);
-int vec_math_log_inplace(struct Vector *vector);
-
+int vec_math_loge_inplace(struct Vector *vector);
+int vec_math_log_inplace(struct Vector *vector, double base);
+int vec_math_exp_inplace(struct Vector *vector);
 
 /* Arithmetic Functions */
 struct Vector *add_vector(const struct Vector *a, const struct Vector *b);
