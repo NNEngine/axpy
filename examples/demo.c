@@ -43,6 +43,10 @@ int main() {
 
 		struct Vector *randnn = vec_randn(10, 0.0, 1.0);
 		print_vector(randnn);
+		printf("\nsum = %lf", vec_aggr_sum(randnn));
+		printf("\nmean = %lf", vec_aggr_mean(randnn));
+		printf("\nmin = %lf", vec_aggr_min(randnn));
+		printf("\nmax = %lf", vec_aggr_max(randnn));
 		dest_vector(randnn);
 
     return 0;

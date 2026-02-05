@@ -3,9 +3,9 @@
 #include "libs.h"
 #include "vector.h"
 
-/* =========================
-   Vector creation
-   ========================= */
+/* ===========================================
+                Vector creation
+   =========================================== */
 
 struct Vector *vec_alloc(size_t size)
 {
@@ -165,9 +165,9 @@ struct Vector *vec_from_array(const double *arr, size_t size)
     return v;
 }
 
-/* =========================
-   Destruction / Debug
-   ========================= */
+/* ===============================================
+            Destruction / Debug
+   =============================================== */
 
 void dest_vector(struct Vector *vector)
 {
@@ -187,9 +187,70 @@ void print_vector(const struct Vector *vector)
     printf("\n");
 }
 
-/* =========================
-   Vector operations (BLAS)
-   ========================= */
+
+
+/*  ===================================================
+            Vector Aggregation Functions
+    ===================================================*/
+
+double vec_aggr_sum(const struct Vector *vector)
+{
+    if(!vector || !vector->data) return 0.0;
+    if(vector->size == 0) return 0.0;
+
+    double total_sum = 0.0;
+
+    for(size_t i = 0; i < vector->size; i++){
+        total_sum += vector->data[i];
+    }
+
+    return total_sum;
+}
+
+double vec_aggr_mean(const struct Vector *vector)
+{
+    if(!vector || !vector->data !vector->size) return 0.0;
+
+    double total_sum = vec_aggr_sum(vector);
+
+    return total_sum / (double)vector->size;
+}
+
+double vec_aggr_min(const struct Vector *vector)
+{
+    if(!vector || !vector->data) return 0.0;
+    if(vector->size == 0) return 0.0;
+
+    double min_value = DBL_MAX;
+
+    for(size_t i = 0; i < vector->size; i++){
+        if(min_value > vector->data[i]){
+            min_value = vector->data[i];
+        }
+    }
+
+    return min_value;
+}
+
+double vec_aggr_max(const struct Vector *vector)
+{
+    if(!vector || !vector->data) return 0.0;
+    if(vector->size == 0) return 0.0;
+
+    double max_value = -DBL_MAX;
+
+    for(size_t i = 0; i < vector->size; i++){
+        if(max_value < vector->data[i]){
+            max_value = vector->data[i];
+        }
+    }
+    return max_value;
+}
+
+
+/* ====================================================
+            Vector operations (BLAS)
+   ==================================================== */
 
 struct Vector *add_vector(const struct Vector *a, const struct Vector *b)
 {

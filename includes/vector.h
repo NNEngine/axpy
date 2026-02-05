@@ -24,11 +24,16 @@ struct Vector *vec_rand(size_t size, double lower_limit, double upper_limit);
 struct Vector *vec_randn(size_t, double mean, double variance);
 struct Vector *vec_from_array(const double *arr, size_t size);
 
+/* Destruction / print vector*/
 
 void dest_vector(struct Vector *vector);
 void print_vector(const struct Vector *vector);
 
 /* VECTOR AGGREGATION FUNCTION*/
+double vec_aggr_sum(const struct Vector *vector);
+double vec_aggr_mean(const struct Vector *vector);
+double vec_aggr_min(const struct Vector *vector);
+double vec_aggr_max(const struct Vector *vector);
 
 struct Vector *add_vector(const struct Vector *a, const struct Vector *b);
 struct Vector *sub_vector(const struct Vector *a, const struct Vector *b);
