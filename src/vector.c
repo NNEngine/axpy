@@ -195,8 +195,7 @@ void print_vector(const struct Vector *vector)
 
 double vec_aggr_sum(const struct Vector *vector)
 {
-    if(!vector || !vector->data) return 0.0;
-    if(vector->size == 0) return 0.0;
+    if(!vector || !vector->data || vector->size == 0) return 0.0;
 
     double total_sum = 0.0;
 
@@ -209,7 +208,7 @@ double vec_aggr_sum(const struct Vector *vector)
 
 double vec_aggr_mean(const struct Vector *vector)
 {
-    if(!vector || !vector->data !vector->size) return 0.0;
+    if(!vector || !vector->data || vector->size == 0) return 0.0;
 
     double total_sum = vec_aggr_sum(vector);
 
@@ -218,8 +217,7 @@ double vec_aggr_mean(const struct Vector *vector)
 
 double vec_aggr_min(const struct Vector *vector)
 {
-    if(!vector || !vector->data) return 0.0;
-    if(vector->size == 0) return 0.0;
+    if(!vector || !vector->data || vector->size == 0) return 0.0;
 
     double min_value = DBL_MAX;
 
@@ -230,6 +228,22 @@ double vec_aggr_min(const struct Vector *vector)
     }
 
     return min_value;
+}
+
+int vec_aggr_argmin(const struct Vector *vector)
+{
+    if(!vector || !vector->data || vector->size == 0) return -1;
+
+    size_t min_index = 0;
+    double min_value = vector->data[0];
+
+    for(size_t i = 0; i < vector->size; i++){
+        if(vector->data[i] < min_value){
+            min_value = vector->data[i];
+            min_index = i;
+        }
+    }
+    return (int)min_index;
 }
 
 double vec_aggr_max(const struct Vector *vector)
@@ -246,6 +260,116 @@ double vec_aggr_max(const struct Vector *vector)
     }
     return max_value;
 }
+
+int vec_aggr_argmax(const struct Vector *vector)
+{
+    if(!vector || !vector->data || vector->size == 0) return -1;
+
+    size_t max_index = 0;
+    double max_value = vector->data[0];
+
+    for(size_t i = 0; i < vector->size; i++){
+        if(vector->data[i] > max_value){
+            max_value = vector->data[i];
+            max_index = i;
+        }
+    }
+    return (int)max_index;
+}
+
+/* ===================================================
+            Vector Math Operations (Out of Place)
+   ===================================================*/
+
+struct Vector *vec_math_pow(const struct Vector *vector, double power)
+{
+    if(!vector || !vector->data || vector->size == 0) return NULL;
+
+    struct Vector *new_vector = vec_alloc(vector->size);
+    if(!new_vector) return NULL;
+
+    for(size_t i = 0; i < vector->size; i++){
+        new_vector->data[i] = pow(vector->data[i],power);
+    }
+    return new_vector;
+}
+
+struct Vector *vec_math_sqrt(const struct Vector *vector)
+{
+    if(!vector || !vector->data || vector->size == 0) return NULL;
+
+    struct Vector *new_vector = vec_alloc(vector->size);
+    if(!new_vector) return NULL;
+
+    for(size_t i = 0; i < vector->size; i++){
+        new_vector->data[i] = sqrt(vector->data[i]);
+    }
+    return new_vector;
+}
+
+
+struct Vector *vec_math_cbrt(const struct Vector *vector)
+{
+    if(!vector || !vector->data || vector->size == 0) return NULL;
+
+    struct Vector *new_vector = vec_alloc(vector->size);
+    if(!new_vector) return NULL;
+
+    for(size_t i = 0; i < vector->size; i++){
+        new_vector->data[i] = cbrt(vector->data[i]);
+    }
+    return new_vector;
+}
+
+struct Vector *vec_math_sin(const struct Vector *vector)
+{
+    if(!vector || !vector->data || vector->size == 0) return NULL;
+
+    struct Vector *new_vector = vec_alloc(vector->size);
+    if(!new_vector) return NULL;
+
+    for(size_t i = 0; i < vector->size; i++){
+        new_vector->data[i] = cbrt(vector->data[i]);
+    }
+    return new_vector;
+}
+
+
+
+/* ===================================================
+            Vector Math Operations (inplace)
+   ===================================================*/
+int vec_math_pow_inplace(struct Vector *vector, double power)
+{
+    if(!vector || !vector->data || vector->size == 0) return NULL;
+
+    for(size_t i = 0; i < size; i++){
+        vector->data[i] = pow(vector->data[i], power);
+    }
+    return 0;
+}
+
+int vec_math_sqrt_inplace(struct Vector *vector)
+{
+    if(!vector || !vector->data || vector->size == 0) return NULL;
+
+    for(size_t i = 0; i < size; i++){
+        vector->data[i] = sqrt(vector->data[i]r);
+    }
+    return 0;
+}
+
+int vec_math_cbrt_inplace(struct Vector *vector)
+{
+    if(!vector || !vector->data || vector->size == 0) return NULL;
+
+    for(size_t i = 0; i < size; i++){
+        vector->data[i] = cbrt(vector->data[i]r);
+    }
+    return 0;
+}
+
+
 
 
 /* ====================================================

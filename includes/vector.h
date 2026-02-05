@@ -34,7 +34,42 @@ double vec_aggr_sum(const struct Vector *vector);
 double vec_aggr_mean(const struct Vector *vector);
 double vec_aggr_min(const struct Vector *vector);
 double vec_aggr_max(const struct Vector *vector);
+int vec_aggr_argmin(const struct Vector *vector);
+int vec_aggr_argmax(const struct Vector *vector);
 
+
+/* math Functions  (Out Of Place)*/
+struct Vector *vec_math_pow(const struct Vector *vector, double power);
+struct Vector *vec_math_sqrt(const struct Vector *vector);
+struct Vector *vec_math_cbrt(const struct Vector *vector);
+struct Vector *vec_math_sin(const struct Vector *vector);
+struct Vector *vec_math_cos(const struct Vector *vector);
+struct Vector *vec_math_tan(const struct Vector *vector);
+struct Vector *vec_math_asin(const struct Vector *vector);
+struct Vector *vec_math_acos(const struct Vector *vector);
+struct Vector *vec_math_atan(const struct Vector *vector);
+struct Vector *vec_math_sinh(const struct Vector *vector);
+struct Vector *vec_math_cosh(const struct Vector *vector);
+struct Vector *vec_math_tanh(const struct Vector *vector);
+struct Vector *vec_math_log(const struct Vector *vector);
+
+/* math Functions  (inplace)*/
+int vec_math_pow_inplace(struct Vector *vector, double power);
+int vec_math_sqrt_inplace(struct Vector *vector);
+int vec_math_cbrt_inplace(struct Vector *vector);
+int vec_math_sin_inplace(struct Vector *vector);
+int vec_math_cos_inplace(struct Vector *vector);
+int vec_math_tan_inplace(struct Vector *vector);
+int vec_math_asin_inplace(struct Vector *vector);
+int vec_math_acos_inplace(struct Vector *vector);
+int vec_math_atan_inplace(struct Vector *vector);
+int vec_math_sinh_inplace(struct Vector *vector);
+int vec_math_cosh_inplace(struct Vector *vector);
+int vec_math_tanh_inplace(struct Vector *vector);
+int vec_math_log_inplace(struct Vector *vector);
+
+
+/* Arithmetic Functions */
 struct Vector *add_vector(const struct Vector *a, const struct Vector *b);
 struct Vector *sub_vector(const struct Vector *a, const struct Vector *b);
 

@@ -46,7 +46,9 @@ int main() {
 		printf("\nsum = %lf", vec_aggr_sum(randnn));
 		printf("\nmean = %lf", vec_aggr_mean(randnn));
 		printf("\nmin = %lf", vec_aggr_min(randnn));
+		printf("\nmin_index = %d", vec_aggr_argmin(randnn));
 		printf("\nmax = %lf", vec_aggr_max(randnn));
+		printf("\nmax_index = %d", vec_aggr_argmax(randnn));
 		dest_vector(randnn);
 
     return 0;
