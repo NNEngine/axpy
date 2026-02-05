@@ -39,6 +39,30 @@ struct Vector *vec_zeros(size_t size)
     return v;
 }
 
+struct Vector *vec_ones(size_t size)
+{
+    struct Vector *v = vec_alloc(size);
+    if(!v) return NULL;
+
+    for(size_t i = 0; i < size; i++){
+        v->data[i] = 1.0;
+    }
+
+    return v;
+}
+
+struct Vector *vec_scalar(size_t size, const double scalar)
+{
+    struct Vector *v = vec_alloc(size);
+    if(!v) return NULL;
+
+    for(size_t i = 0; i < size; i++){
+        v->data[i] = scalar;
+    }
+
+    return v;
+}
+
 struct Vector *vec_from_array(const double *arr, size_t size)
 {
     if (!arr) return NULL;
@@ -59,7 +83,7 @@ struct Vector *vec_from_array(const double *arr, size_t size)
    Destruction / Debug
    ========================= */
 
-void vec_destroy(struct Vector *vector)
+void dest_vector(struct Vector *vector)
 {
     if (!vector) return;
 

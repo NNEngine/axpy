@@ -12,6 +12,8 @@ struct Vector{
 
 struct Vector *vec_alloc(size_t size);
 struct Vector *vec_zeros(size_t size);
+struct Vector *vec_ones(size_t size);
+struct Vector *vec_scalar(size_t size, const double scalar);
 struct Vector *vec_from_array(const double *arr, size_t size);
 
 
@@ -20,8 +22,5 @@ void print_vector(const struct Vector *vector);
 
 struct Vector *add_vector(const struct Vector *a, const struct Vector *b);
 struct Vector *sub_vector(const struct Vector *a, const struct Vector *b);
-
-
-
 
 #endif
