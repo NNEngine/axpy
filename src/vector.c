@@ -102,6 +102,53 @@ struct Vector *vec_linspace(size_t size, double start, double end)
     return v;
 }
 
+void axpy_init_rng(void)
+{
+    srand((unsigned)time(NULL));
+}
+
+struct Vector *vec_rand(size_t size, double lower_limit, double upper_limit)
+{
+    if(size == 0) return NULL;
+
+    if(upper_limit <= lower_limit) return NULL;
+
+    struct Vector *v = vec_alloc(size);
+    if(!v) return NULL;
+
+    double range = upper_limit - lower_limit;
+
+    for(size_t i = 0; i < size; i++){
+        double random_number = (double)rand() / (double)RAND_MAX;
+        v->data[i] = lower_limit + range * random_number;
+    }
+
+    return v;
+}
+
+struct Vector *vec_randn(size_t size, double mean, double variance)
+{
+    if (size == 0) return NULL;
+    if (variance <= 0.0) return NULL;
+
+    struct Vector *v = vec_alloc(size);
+    if (!v) return NULL;
+
+    double stddev = sqrt(variance);
+
+    for (size_t i = 0; i < size; i++) {
+        double u1 = ((double)rand() + 1.0) / ((double)RAND_MAX + 2.0);
+        double u2 = ((double)rand() + 1.0) / ((double)RAND_MAX + 2.0);
+
+        double z = sqrt(-2.0 * log(u1)) * cos(2.0 * M_PI * u2);
+
+        v->data[i] = mean + stddev * z;
+    }
+
+    return v;
+}
+
+
 struct Vector *vec_from_array(const double *arr, size_t size)
 {
     if (!arr) return NULL;

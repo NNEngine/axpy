@@ -36,5 +36,14 @@ int main() {
 		print_vector(linspace);
 		dest_vector(linspace);
 
+		axpy_init_rng();
+		struct Vector *randn = vec_rand(5, 10, 20);
+		print_vector(randn);
+		dest_vector(randn);
+
+		struct Vector *randnn = vec_randn(10, 0.0, 1.0);
+		print_vector(randnn);
+		dest_vector(randnn);
+
     return 0;
 }
