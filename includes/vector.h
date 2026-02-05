@@ -15,6 +15,7 @@ struct Vector *vec_zeros(size_t size);
 struct Vector *vec_ones(size_t size);
 struct Vector *vec_scalar(size_t size, double scalar);
 struct Vector *vec_arange(size_t size, double start, double step);
+struct Vector *vec_linspace(size_t size, double start, double end);
 struct Vector *vec_from_array(const double *arr, size_t size);
 
 

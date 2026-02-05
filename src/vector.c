@@ -78,6 +78,29 @@ struct Vector *vec_arange(size_t size, double start, double step)
     return v;
 }
 
+struct Vector *vec_linspace(size_t size, double start, double end)
+{
+    if(size == 0) return NULL;
+
+    struct Vector *v = vec_alloc(size);
+    if(!v) return NULL;
+
+    if(size == 1){
+        v->data[0] = start;
+        return v;
+    }
+
+    double step = (end - start) / ((double)size -1);
+
+    for(size_t i = 0; i < size; i++){
+        v->data[i] = start + step * (double)i;
+    }
+
+    /* guarantee exact endpoint */
+    v->data[size - 1] = end;
+
+    return v;
+}
 
 struct Vector *vec_from_array(const double *arr, size_t size)
 {

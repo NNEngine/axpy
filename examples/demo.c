@@ -32,6 +32,9 @@ int main() {
 		print_vector(arange);
 		dest_vector(arange);
 
+		struct Vector *linspace = vec_linspace(5, 2.0, -1.0);
+		print_vector(linspace);
+		dest_vector(linspace);
 
     return 0;
 }
