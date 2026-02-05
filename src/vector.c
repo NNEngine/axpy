@@ -51,7 +51,7 @@ struct Vector *vec_ones(size_t size)
     return v;
 }
 
-struct Vector *vec_scalar(size_t size, const double scalar)
+struct Vector *vec_scalar(size_t size, double scalar)
 {
     struct Vector *v = vec_alloc(size);
     if(!v) return NULL;
@@ -62,6 +62,22 @@ struct Vector *vec_scalar(size_t size, const double scalar)
 
     return v;
 }
+
+struct Vector *vec_arange(size_t size, double start, double step)
+{
+    struct Vector *v = vec_alloc(size);
+    if(!v) return NULL;
+
+    double value = start;
+
+    for(size_t i = 0; i < size; i++){
+        v->data[i] = value;
+        value += step;
+    }
+
+    return v;
+}
+
 
 struct Vector *vec_from_array(const double *arr, size_t size)
 {

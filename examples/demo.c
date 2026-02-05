@@ -20,6 +20,17 @@ int main() {
 		print_vector(zero);
 		dest_vector(zero);
 
+		struct Vector *ones = vec_ones(5);
+		print_vector(ones);
+		dest_vector(ones);
+
+		struct Vector *scalar = vec_scalar(5, 100);
+		print_vector(scalar);
+		dest_vector(scalar);
+
+		struct Vector *arange = vec_arange(5, 0.0, -10.0);
+		print_vector(arange);
+		dest_vector(arange);
 
 
     return 0;
