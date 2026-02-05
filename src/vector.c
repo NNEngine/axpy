@@ -329,12 +329,116 @@ struct Vector *vec_math_sin(const struct Vector *vector)
     if(!new_vector) return NULL;
 
     for(size_t i = 0; i < vector->size; i++){
-        new_vector->data[i] = cbrt(vector->data[i]);
+        new_vector->data[i] = sin(vector->data[i]);
+    }
+    return new_vector;
+}
+
+struct Vector *vec_math_cos(const struct Vector *vector)
+{
+    if(!vector || !vector->data || vector->size == 0) return NULL;
+
+    struct Vector *new_vector = vec_alloc(vector->size);
+    if(!new_vector) return NULL;
+
+    for(size_t i = 0; i < vector->size; i++){
+        new_vector->data[i] = cos(vector->data[i]);
+    }
+    return new_vector;
+}
+
+struct Vector *vec_math_tan(const struct Vector *vector)
+{
+    if(!vector || !vector->data || vector->size == 0) return NULL;
+
+    struct Vector *new_vector = vec_alloc(vector->size);
+    if(!new_vector) return NULL;
+
+    for(size_t i = 0; i < vector->size; i++){
+        new_vector->data[i] = tan(vector->data[i]);
     }
     return new_vector;
 }
 
 
+struct Vector *vec_math_asin(const struct Vector *vector)
+{
+    if(!vector || !vector->data || vector->size == 0) return NULL;
+
+    struct Vector *new_vector = vec_alloc(vector->size);
+    if(!new_vector) return NULL;
+
+    for(size_t i = 0; i < vector->size; i++){
+        new_vector->data[i] = asin(vector->data[i]);
+    }
+    return new_vector;
+}
+
+struct Vector *vec_math_acos(const struct Vector *vector)
+{
+    if(!vector || !vector->data || vector->size == 0) return NULL;
+
+    struct Vector *new_vector = vec_alloc(vector->size);
+    if(!new_vector) return NULL;
+
+    for(size_t i = 0; i < vector->size; i++){
+        new_vector->data[i] = acos(vector->data[i]);
+    }
+    return new_vector;
+}
+
+struct Vector *vec_math_atan(const struct Vector *vector)
+{
+    if(!vector || !vector->data || vector->size == 0) return NULL;
+
+    struct Vector *new_vector = vec_alloc(vector->size);
+    if(!new_vector) return NULL;
+
+    for(size_t i = 0; i < vector->size; i++){
+        new_vector->data[i] = atan(vector->data[i]);
+    }
+    return new_vector;
+}
+
+struct Vector *vec_math_sinh(const struct Vector *vector)
+{
+    if(!vector || !vector->data || vector->size == 0) return NULL;
+
+    struct Vector *new_vector = vec_alloc(vector->size);
+    if(!new_vector) return NULL;
+
+    for(size_t i = 0; i < vector->size; i++){
+        new_vector->data[i] = sinh(vector->data[i]);
+    }
+    return new_vector;
+}
+
+struct Vector *vec_math_cosh(const struct Vector *vector)
+{
+    if(!vector || !vector->data || vector->size == 0) return NULL;
+
+    struct Vector *new_vector = vec_alloc(vector->size);
+    if(!new_vector) return NULL;
+
+    for(size_t i = 0; i < vector->size; i++){
+        new_vector->data[i] = cosh(vector->data[i]);
+    }
+    return new_vector;
+}
+
+
+struct Vector *vec_math_tanh(const struct Vector *vector)
+{
+    if(!vector || !vector->data || vector->size == 0) return NULL;
+
+    struct Vector *new_vector = vec_alloc(vector->size);
+    if(!new_vector) return NULL;
+
+    for(size_t i = 0; i < vector->size; i++){
+        new_vector->data[i] = tanh(vector->data[i]);
+    }
+    return new_vector;
+}
 
 /* ===================================================
             Vector Math Operations (inplace)
@@ -354,7 +458,7 @@ int vec_math_sqrt_inplace(struct Vector *vector)
     if(!vector || !vector->data || vector->size == 0) return NULL;
 
     for(size_t i = 0; i < size; i++){
-        vector->data[i] = sqrt(vector->data[i]r);
+        vector->data[i] = sqrt(vector->data[i]);
     }
     return 0;
 }
@@ -364,7 +468,98 @@ int vec_math_cbrt_inplace(struct Vector *vector)
     if(!vector || !vector->data || vector->size == 0) return NULL;
 
     for(size_t i = 0; i < size; i++){
-        vector->data[i] = cbrt(vector->data[i]r);
+        vector->data[i] = cbrt(vector->data[i]);
+    }
+    return 0;
+}
+
+int vec_math_sin_inplace(struct Vector *vector)
+{
+    if(!vector || !vector->data || vector->size == 0) return NULL;
+
+    for(size_t i = 0; i < size; i++){
+        vector->data[i] = sin(vector->data[i]);
+    }
+    return 0;||
+}
+
+int vec_math_cos_inplace(struct Vector *vector)
+{
+    if(!vector || !vector->data || vector->size == 0) return NULL;
+
+    for(size_t i = 0; i < size; i++){
+        vector->data[i] = cos(vector->data[i]);
+    }
+    return 0;
+}
+
+int vec_math_tan_inplace(struct Vector *vector)
+{
+    if(!vector || !vector->data || vector->size == 0) return NULL;
+
+    for(size_t i = 0; i < size; i++){
+        vector->data[i] = tan(vector->data[i]);
+    }
+    return 0;
+}
+
+
+int vec_math_asin_inplace(struct Vector *vector)
+{
+    if(!vector || !vector->data || vector->size == 0) return NULL;
+
+    for(size_t i = 0; i < size; i++){
+        vector->data[i] = asin(vector->data[i]);
+    }
+    return 0;
+}
+
+int vec_math_acos_inplace(struct Vector *vector)
+{
+    if(!vector || !vector->data || vector->size == 0) return NULL;
+
+    for(size_t i = 0; i < size; i++){
+        vector->data[i] = acos(vector->data[i]);
+    }
+    return 0;
+}
+
+int vec_math_atan_inplace(struct Vector *vector)
+{
+    if(!vector || !vector->data || vector->size == 0) return NULL;
+
+    for(size_t i = 0; i < size; i++){
+        vector->data[i] = atan(vector->data[i]);
+    }
+    return 0;
+}
+
+int vec_math_sinh_inplace(struct Vector *vector)
+{
+    if(!vector || !vector->data || vector->size == 0) return NULL;
+
+    for(size_t i = 0; i < vector->size; i++){
+        vector->data[i] = sinh(vector->data[i]);
+    }
+    return 0;
+}
+
+int vec_math_cosh_inplace(struct Vector *vector)
+{
+    if(!vector || !vector->data || vector->size == 0) return NULL;
+
+    for(size_t i = 0; i < size; i++){
+        vector->data[i] = cosh(vector->data[i]);
+    }
+    return 0;
+}
+
+int vec_math_tanh_inplace(struct Vector *vector)
+{
+    if(!vector || !vector->data || vector->size == 0) return NULL;
+
+    for(size_t i = 0; i < size; i++){
+        vector->data[i] = tanh(vector->data[i]);
     }
     return 0;
 }
