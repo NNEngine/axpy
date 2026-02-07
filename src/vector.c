@@ -17,7 +17,9 @@
 struct Vector *vec_alloc(size_t size)
 {
     struct Vector *v = malloc(sizeof *v);
-    if (!v){
+
+    if (!v)
+    {
         errno = ENOMEM;
         fprintf(stderr,
                 "vec_alloc error: failed to allocate Vector struct (%s)\n",
@@ -28,7 +30,8 @@ struct Vector *vec_alloc(size_t size)
     v->size = size;
     v->data = malloc(size * sizeof(double));
 
-    if (!v->data) {
+    if (!v->data)
+    {
         errno = ENOMEM;
         fprintf(stderr,
                 "vec_alloc error: failed to allocate data buffer (%s)\n",
@@ -43,12 +46,25 @@ struct Vector *vec_alloc(size_t size)
 struct Vector *vec_zeros(size_t size)
 {
     struct Vector *v = malloc(sizeof *v);
-    if (!v) return NULL;
+
+    if (!v)
+    {
+        errno = ENOMEM;
+        fprintf(stderr,
+                "vec_zeros: failed to allocate Vector struct (%s)\n",
+                stderror(errno));
+        return NULL;
+    }
 
     v->size = size;
     v->data = calloc(size, sizeof(double));
 
-    if (!v->data) {
+    if (!v->data)
+    {
+        errno = ENOMEM;
+        fprintf(stderr,
+                "vec_zeros: failed to allocate data buffer (%s)\n",
+                stderror(errno));
         free(v);
         return NULL;
     }
@@ -59,7 +75,14 @@ struct Vector *vec_zeros(size_t size)
 struct Vector *vec_ones(size_t size)
 {
     struct Vector *v = vec_alloc(size);
-    if(!v) return NULL;
+    if(!v)
+    {
+        errno = ENOMEM;
+        fprintf(stderr,
+                "vec_alloc: failed to allocate Vector struct (%S)\n",
+                strerror(errno));
+        return NULL;
+    }
 
     for(size_t i = 0; i < size; i++){
         v->data[i] = 1.0;
@@ -71,7 +94,14 @@ struct Vector *vec_ones(size_t size)
 struct Vector *vec_scalar(size_t size, double scalar)
 {
     struct Vector *v = vec_alloc(size);
-    if(!v) return NULL;
+    if(!v)
+    {
+        errno = ENOMEM;
+        fprintf(stderr,
+                "vec_alloc: failed to allocate Vector struct (%S)\n",
+                strerror(errno));
+        return NULL;
+    }
 
     for(size_t i = 0; i < size; i++){
         v->data[i] = scalar;
@@ -83,7 +113,14 @@ struct Vector *vec_scalar(size_t size, double scalar)
 struct Vector *vec_arange(size_t size, double start, double step)
 {
     struct Vector *v = vec_alloc(size);
-    if(!v) return NULL;
+    if(!v)
+    {
+        errno = ENOMEM;
+        fprintf(stderr,
+                "vec_alloc: failed to allocate Vector struct (%S)\n",
+                strerror(errno));
+        return NULL;
+    }
 
     double value = start;
 
@@ -100,7 +137,14 @@ struct Vector *vec_linspace(size_t size, double start, double end)
     if(size == 0) return NULL;
 
     struct Vector *v = vec_alloc(size);
-    if(!v) return NULL;
+    if(!v)
+    {
+        errno = ENOMEM;
+        fprintf(stderr,
+                "vec_alloc: failed to allocate Vector struct (%S)\n",
+                strerror(errno));
+        return NULL;
+    }
 
     if(size == 1){
         v->data[0] = start;
@@ -131,7 +175,14 @@ struct Vector *vec_rand(size_t size, double lower_limit, double upper_limit)
     if(upper_limit <= lower_limit) return NULL;
 
     struct Vector *v = vec_alloc(size);
-    if(!v) return NULL;
+    if(!v)
+    {
+        errno = ENOMEM;
+        fprintf(stderr,
+                "vec_alloc: failed to allocate Vector struct (%S)\n",
+                strerror(errno));
+        return NULL;
+    }
 
     double range = upper_limit - lower_limit;
 
@@ -149,7 +200,14 @@ struct Vector *vec_randn(size_t size, double mean, double variance)
     if (variance <= 0.0) return NULL;
 
     struct Vector *v = vec_alloc(size);
-    if (!v) return NULL;
+    if(!v)
+    {
+        errno = ENOMEM;
+        fprintf(stderr,
+                "vec_alloc: failed to allocate Vector struct (%S)\n",
+                strerror(errno));
+        return NULL;
+    }
 
     double stddev = sqrt(variance);
 
@@ -171,7 +229,14 @@ struct Vector *vec_from_array(const double *arr, size_t size)
     if (!arr) return NULL;
 
     struct Vector *v = vec_alloc(size);
-    if (!v) return NULL;
+    if(!v)
+    {
+        errno = ENOMEM;
+        fprintf(stderr,
+                "vec_alloc: failed to allocate Vector struct (%S)\n",
+                strerror(errno));
+        return NULL;
+    }
 
     cblas_dcopy(
         (int)size,
@@ -303,7 +368,14 @@ struct Vector *vec_math_pow(const struct Vector *vector, double power)
     if(!vector || !vector->data || vector->size == 0) return NULL;
 
     struct Vector *new_vector = vec_alloc(vector->size);
-    if(!new_vector) return NULL;
+    if(!new_vector)
+    {
+        errno = ENOMEM;
+        fprintf(stderr,
+                "vec_alloc: failed to allocate Vector struct (%S)\n",
+                strerror(errno));
+        return NULL;
+    }
 
     for(size_t i = 0; i < vector->size; i++){
         new_vector->data[i] = pow(vector->data[i],power);
@@ -316,7 +388,14 @@ struct Vector *vec_math_sqrt(const struct Vector *vector)
     if(!vector || !vector->data || vector->size == 0) return NULL;
 
     struct Vector *new_vector = vec_alloc(vector->size);
-    if(!new_vector) return NULL;
+    if(!new_vector)
+    {
+        errno = ENOMEM;
+        fprintf(stderr,
+                "vec_alloc: failed to allocate Vector struct (%S)\n",
+                strerror(errno));
+        return NULL;
+    }
 
     for(size_t i = 0; i < vector->size; i++){
         new_vector->data[i] = sqrt(vector->data[i]);
