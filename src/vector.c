@@ -765,7 +765,7 @@ int vec_math_round_inplace(struct Vector *vector)
 }
 
 /* ====================================================
-            Vector operations (BLAS)
+            Arithmetic operations (BLAS)
    ==================================================== */
 
 struct Vector *add_vector(const struct Vector *a, const struct Vector *b)
@@ -818,4 +818,150 @@ struct Vector *sub_vector(const struct Vector *a, const struct Vector *b)
     );
 
     return c;
+}
+
+/* Elementwise multiplication (Hadamard multiplication)*/
+
+struct Vector *vec_mul(const struct Vector *a, const struct Vector *b)
+{
+    if(!a || !b || !a->data || !b->data) return NULL;
+    if(a->size == 0 || b->size ==0) return NULL;
+    if(a->size != b->size) return NULL:
+
+    struct Vector *new_vec = vec_alloc(a->size);
+
+    for(size_t i= 0; i < a->size; i++){
+        new_vec->data[i] = a->data[i] * b->data[i];
+    }
+
+    return new_vec;
+}
+
+int vec_mul_inplace(struct Vector *a, const struct Vector *b)
+{
+    if(!a || !b || !a->data || !b->data) return -1;
+    if(a->size != b->size) return -1;
+
+    for(size_t i = 0; i < a->size; i++){
+        a->data[i]*=b->size[i];
+    }
+
+    return 0;
+
+}
+
+
+
+/* BLAS Level-1 */
+
+double vec_dot(const struct Vector *a, const struct Vector *b)
+{
+    if (!a || !b) return 0.0;
+    if (a->size != b->size) return 0.0;
+
+    /*double sum = 0.0;
+    for (size_t i = 0; i < a->size; i++) {
+        sum += a->data[i] * b->data[i];
+    }*/
+
+    return cblas_ddot(
+        (int)a->size,     // number of elements
+        a->data, 1,       // vector a, stride 1
+        b->data, 1        // vector b, stride 1
+    );
+}
+
+
+int vec_copy(struct Vector *dest, const struct Vector *src)
+{
+    if (!dest || !src) return -1;
+    if (dest->size != src->size) return -1;
+
+    cblas_dcopy(
+        (int)src->size,   // number of elements
+        src->data, 1,     // source vector, stride 1
+        dest->data, 1     // destination vector, stride 1
+    );
+
+    return 0;
+}
+
+int vec_scale_inplace(struct Vector *v, double scalar)
+{
+    if (!v) return -1;
+    if (!v->data) return -1;
+
+    cblas_dscal(
+        (int)v->size,   // number of elements
+        scalar,         // scaling factor
+        v->data, 1      // vector data, stride 1
+    );
+
+    return 0;
+}
+
+int vec_axpy_inplace(struct Vector *y, const struct Vector *x, double a)
+{
+    /* Y[i] = alpha * X[i] + Y[i] */
+    if (!y || !x) return -1;
+    if (y->size != x->size) return -1;
+    if (!y->data || !x->data) return -1;
+
+    cblas_daxpy(
+        (int)y->size,   // number of elements
+        a,              // scalar multiplier
+        x->data, 1,     // vector x
+        y->data, 1      // vector y (modified in-place)
+    );
+
+    return 0;
+}
+
+double vec_norm2(const struct Vector *v)
+{
+    /*double sum = 0.0;
+    for (size_t i = 0; i < v->size; i++) {
+        sum += v->data[i] * v->data[i];
+    }*/
+
+    if (!v || !v->data) return 0.0;
+
+    return cblas_dnrm2(
+        (int)v->size,   // number of elements
+        v->data, 1      // vector data, stride 1
+    );
+}
+
+double vec_asum(const struct Vector *v)
+{
+
+    /*double sum = 0.0;
+    for (size_t i = 0; i < v->size; i++) {
+        sum += fabs(v->data[i]);
+    }*/
+    if (!v || !v->data) return 0.0;
+
+    return cblas_dasum(
+        (int)v->size,
+        v->data, 1
+    );
+}
+
+int vec_iamax(const struct Vector *v)
+{
+    /*int idx = 0;
+    double max_val = fabs(v->data[0]);
+    for (size_t i = 1; i < v->size; i++) {
+        double val = fabs(v->data[i]);
+            if (val > max_val) {
+            max_val = val; idx = (int)i;
+        }
+    }
+    return idx;*/
+    if (!v || !v->data) return -1;
+
+    return cblas_idamax(
+        (int)v->size,
+        v->data, 1
+    );
 }

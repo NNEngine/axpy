@@ -23,7 +23,6 @@ struct Vector *vec_randn(size_t, double mean, double variance);
 struct Vector *vec_from_array(const double *arr, size_t size);
 
 /* Destruction / print vector*/
-
 void dest_vector(struct Vector *vector);
 void print_vector(const struct Vector *vector);
 
@@ -84,5 +83,20 @@ int vec_math_round_inplace(struct Vector *vector);
 /* Arithmetic Functions */
 struct Vector *add_vector(const struct Vector *a, const struct Vector *b);
 struct Vector *sub_vector(const struct Vector *a, const struct Vector *b);
+
+/* Elementwise multiplication (Hadamard multiplication)*/
+struct Vector *vec_mul(const struct Vector *a, const struct Vector *b);
+int vec_mul_inplace(struct Vector *a, const struct Vector *b);
+
+
+/* BLAS Level-1 */
+double vec_dot(const struct Vector *a, const struct Vector *b);
+int vec_copy(struct Vector *dest, const struct Vector *src);
+int vec_scale_inplace(struct Vector *v, double scalar);
+int vec_axpy_inplace(struct Vector *y, const struct Vector *x, double a);
+double vec_norm2(const struct Vector *v);
+double vec_asum(const struct Vector *v);
+int vec_iamax(const struct Vector *v);
+
 
 #endif
