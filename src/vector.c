@@ -17,12 +17,22 @@
 struct Vector *vec_alloc(size_t size)
 {
     struct Vector *v = malloc(sizeof *v);
-    if (!v) return NULL;
+    if (!v){
+        errno = ENOMEM;
+        fprintf(stderr,
+                "vec_alloc error: failed to allocate Vector struct (%s)\n",
+                strerror(errno));
+        return NULL;
+    }
 
     v->size = size;
     v->data = malloc(size * sizeof(double));
 
     if (!v->data) {
+        errno = ENOMEM;
+        fprintf(stderr,
+                "vec_alloc error: failed to allocate data buffer (%s)\n",
+                stderror(errno));
         free(v);
         return NULL;
     }
