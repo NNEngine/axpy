@@ -760,7 +760,21 @@ struct Vector *vec_math_round(const struct Vector *vector)
    ===================================================*/
 int vec_math_pow_inplace(struct Vector *vector, double power)
 {
-    if(!vector || !vector->data || vector->size == 0) return -1;
+    if (!vector || !vector->data) {
+        errno = EINVAL;
+        fprintf(stderr,
+                "vec_div_scalar: invalid vector pointer (%s)\n",
+                strerror(errno));
+        return NULL;
+    }
+
+    if (vector->size == 0) {
+        errno = EINVAL;
+        fprintf(stderr,
+                "vec_div_scalar: vector size is zero (%s)\n",
+                strerror(errno));
+        return NULL;
+    }
 
     for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = pow(vector->data[i], power);
@@ -770,7 +784,21 @@ int vec_math_pow_inplace(struct Vector *vector, double power)
 
 int vec_math_sqrt_inplace(struct Vector *vector)
 {
-    if(!vector || !vector->data || vector->size == 0) return -1;
+    if (!vector || !vector->data) {
+        errno = EINVAL;
+        fprintf(stderr,
+                "vec_div_scalar: invalid vector pointer (%s)\n",
+                strerror(errno));
+        return NULL;
+    }
+
+    if (vector->size == 0) {
+        errno = EINVAL;
+        fprintf(stderr,
+                "vec_div_scalar: vector size is zero (%s)\n",
+                strerror(errno));
+        return NULL;
+    }
 
     for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = sqrt(vector->data[i]);
@@ -780,7 +808,21 @@ int vec_math_sqrt_inplace(struct Vector *vector)
 
 int vec_math_cbrt_inplace(struct Vector *vector)
 {
-    if(!vector || !vector->data || vector->size == 0) return -1;
+    if (!vector || !vector->data) {
+        errno = EINVAL;
+        fprintf(stderr,
+                "vec_div_scalar: invalid vector pointer (%s)\n",
+                strerror(errno));
+        return NULL;
+    }
+
+    if (vector->size == 0) {
+        errno = EINVAL;
+        fprintf(stderr,
+                "vec_div_scalar: vector size is zero (%s)\n",
+                strerror(errno));
+        return NULL;
+    }
 
     for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = cbrt(vector->data[i]);
@@ -790,7 +832,21 @@ int vec_math_cbrt_inplace(struct Vector *vector)
 
 int vec_math_sin_inplace(struct Vector *vector)
 {
-    if(!vector || !vector->data || vector->size == 0) return -1;
+    if (!vector || !vector->data) {
+        errno = EINVAL;
+        fprintf(stderr,
+                "vec_div_scalar: invalid vector pointer (%s)\n",
+                strerror(errno));
+        return NULL;
+    }
+
+    if (vector->size == 0) {
+        errno = EINVAL;
+        fprintf(stderr,
+                "vec_div_scalar: vector size is zero (%s)\n",
+                strerror(errno));
+        return NULL;
+    }
 
     for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = sin(vector->data[i]);
@@ -800,17 +856,46 @@ int vec_math_sin_inplace(struct Vector *vector)
 
 int vec_math_cos_inplace(struct Vector *vector)
 {
-    if(!vector || !vector->data || vector->size == 0) return -1;
+    if (!vector || !vector->data) {
+        errno = EINVAL;
+        fprintf(stderr,
+                "vec_div_scalar: invalid vector pointer (%s)\n",
+                strerror(errno));
+        return NULL;
+    }
+
+    if (vector->size == 0) {
+        errno = EINVAL;
+        fprintf(stderr,
+                "vec_div_scalar: vector size is zero (%s)\n",
+                strerror(errno));
+        return NULL;
+    }
 
     for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = cos(vector->data[i]);
     }
+
     return 0;
 }
 
 int vec_math_tan_inplace(struct Vector *vector)
 {
-    if(!vector || !vector->data || vector->size == 0) return -1;
+    if (!vector || !vector->data) {
+        errno = EINVAL;
+        fprintf(stderr,
+                "vec_div_scalar: invalid vector pointer (%s)\n",
+                strerror(errno));
+        return NULL;
+    }
+
+    if (vector->size == 0) {
+        errno = EINVAL;
+        fprintf(stderr,
+                "vec_div_scalar: vector size is zero (%s)\n",
+                strerror(errno));
+        return NULL;
+    }
 
     for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = tan(vector->data[i]);
@@ -840,6 +925,7 @@ int vec_math_asin_inplace(struct Vector *vector)
     for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = asin(vector->data[i]);
     }
+
     return 0;
 }
 
@@ -864,6 +950,7 @@ int vec_math_acos_inplace(struct Vector *vector)
     for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = acos(vector->data[i]);
     }
+
     return 0;
 }
 
@@ -888,6 +975,7 @@ int vec_math_atan_inplace(struct Vector *vector)
     for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = atan(vector->data[i]);
     }
+
     return 0;
 }
 
@@ -912,6 +1000,7 @@ int vec_math_sinh_inplace(struct Vector *vector)
     for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = sinh(vector->data[i]);
     }
+    
     return 0;
 }
 
