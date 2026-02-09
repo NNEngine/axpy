@@ -963,73 +963,6 @@ int vec_math_round_inplace(struct Vector *vector)
     return 0;
 }
 
-/* ====================================================
-            Arithmetic operations (BLAS)
-   ==================================================== */
-
-struct Vector *add_vector(const struct Vector *a, const struct Vector *b)
-{
-    if (!a || !b) return NULL;
-    if (a->size != b->size) return NULL;
-
-    struct Vector *c = vec_alloc(a->size);
-    if(!c){
-        errno = ENOMEM;
-        fprintf(stderr,
-                "vec_alloc: failed to allocate Vector struct (%s)\n",
-                stderror(errno));
-        return NULL;
-    }
-
-    /* c = a */
-    cblas_dcopy(
-        (int)a->size,
-        a->data, 1,
-        c->data, 1
-    );
-
-    /* c = c + b */
-    cblas_daxpy(
-        (int)b->size,
-        1.0,
-        b->data, 1,
-        c->data, 1
-    );
-
-    return c;
-}
-
-struct Vector *sub_vector(const struct Vector *a, const struct Vector *b)
-{
-    if (!a || !b) return NULL;
-    if (a->size != b->size) return NULL;
-
-    struct Vector *c = vec_alloc(a->size);
-    if(!c){
-        errno = ENOMEM;
-        fprintf(stderr,
-                "vec_alloc: failed to allocate Vector struct (%s)\n",
-                stderror(errno));
-        return NULL;
-    }
-
-    /* c = a */
-    cblas_dcopy(
-        (int)a->size,
-        a->data, 1,
-        c->data, 1
-    );
-
-    /* c = c - b */
-    cblas_daxpy(
-        (int)b->size,
-        -1.0,
-        b->data, 1,
-        c->data, 1
-    );
-
-    return c;
-}
 
 /* Elementwise multiplication (Hadamard multiplication)*/
 
@@ -1182,4 +1115,96 @@ int vec_iamax(const struct Vector *v)
         (int)v->size,
         v->data, 1
     );
+}
+
+/* ====================================================
+            Arithmetic operations (BLAS)
+   ==================================================== */
+
+struct Vector *vec_add(const struct Vector *a, const struct Vector *b)
+{
+    if (!a || !b) return NULL;
+    if (a->size != b->size) return NULL;
+
+    struct Vector *c = vec_alloc(a->size);
+    if(!c){
+        errno = ENOMEM;
+        fprintf(stderr,
+                "vec_alloc: failed to allocate Vector struct (%s)\n",
+                stderror(errno)
+        );
+        return NULL;
+    }
+
+    /* c = a */
+    cblas_dcopy(
+        (int)a->size,
+        a->data, 1,
+        c->data, 1
+    );
+
+    /* c = c + b */
+    cblas_daxpy(
+        (int)b->size,
+        1.0,
+        b->data, 1,
+        c->data, 1
+    );
+
+    return c;
+}
+
+struct Vector *vec_sub(const struct Vector *a, const struct Vector *b)
+{
+    if (!a || !b) return NULL;
+    if (a->size != b->size) return NULL;
+
+    struct Vector *c = vec_alloc(a->size);
+    if(!c){
+        errno = ENOMEM;
+        fprintf(stderr,
+                "vec_alloc: failed to allocate Vector struct (%s)\n",
+                stderror(errno)
+        );
+        return NULL;
+    }
+
+    /* c = a */
+    cblas_dcopy(
+        (int)a->size,
+        a->data, 1,
+        c->data, 1
+    );
+
+    /* c = c - b */
+    cblas_daxpy(
+        (int)b->size,
+        -1.0,
+        b->data, 1,
+        c->data, 1
+    );
+
+    return c;
+}
+
+/* Scalar Functions (out of place)*/
+
+struct Vector *vec_add_scalar(const struct Vector *v, double s)
+{
+    if(!v || !v->data || !v->size == 0) return NULL;
+
+    struct Vector *new_vec = vec_alloc(v->size);
+    if(!new_vec){
+        errno = ENOMEM;
+        fprintf(stderr,
+                "vec_alloc: failed to allocate Vector struct (%s)\n",
+                stderror(errno)
+        );
+        return NULL;
+    }
+
+    for(size_t i = 0; i < v->size; i++){
+        new->data = v->data[i] + s;
+    }
+    return new_vec;
 }

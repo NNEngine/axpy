@@ -80,9 +80,22 @@ int vec_math_fmod_inplace(struct Vector *vector, double divisor);
 int vec_math_trunc_inplace(struct Vector *vector);
 int vec_math_round_inplace(struct Vector *vector);
 
-/* Arithmetic Functions */
-struct Vector *add_vector(const struct Vector *a, const struct Vector *b);
-struct Vector *sub_vector(const struct Vector *a, const struct Vector *b);
+
+/* Arithmetic Functions (BLAS) */
+struct Vector *vec_add(const struct Vector *a, const struct Vector *b);
+struct Vector *vec_sub(const struct Vector *a, const struct Vector *b);
+
+/* Scalar Functions (out of place)*/
+struct Vector *vec_add_scalar(const struct Vector *v, double s);
+struct Vector *vec_sub_scalar(const struct Vector *v, double s);
+struct Vector *vec_mul_scalar(const struct Vector *v, double s);
+struct Vector *vec_div_scalar(const struct Vector *v, double s);
+
+/* Scalar Functions (inplace) */
+int vec_add_scalar_inplace(struct Vector *v, double s);
+int vec_sub_scalar_inplace(struct Vector *v, double s);
+int vec_mul_scalar_inplace(struct Vector *v, double s);
+int vec_div_scalar_inplace(struct Vector *v, double s);
 
 /* Elementwise multiplication (Hadamard multiplication)*/
 struct Vector *vec_mul(const struct Vector *a, const struct Vector *b);
