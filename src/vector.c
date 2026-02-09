@@ -179,7 +179,7 @@ struct Vector *vec_rand(size_t size, double lower_limit, double upper_limit)
     {
         errno = ENOMEM;
         fprintf(stderr,
-                "vec_alloc: failed to allocate Vector struct (%S)\n",
+                "vec_alloc: failed to allocate Vector struct (%s)\n",
                 strerror(errno));
         return NULL;
     }
@@ -204,7 +204,7 @@ struct Vector *vec_randn(size_t size, double mean, double variance)
     {
         errno = ENOMEM;
         fprintf(stderr,
-                "vec_alloc: failed to allocate Vector struct (%S)\n",
+                "vec_alloc: failed to allocate Vector struct (%s)\n",
                 strerror(errno));
         return NULL;
     }
@@ -233,7 +233,7 @@ struct Vector *vec_from_array(const double *arr, size_t size)
     {
         errno = ENOMEM;
         fprintf(stderr,
-                "vec_alloc: failed to allocate Vector struct (%S)\n",
+                "vec_alloc: failed to allocate Vector struct (%s)\n",
                 strerror(errno));
         return NULL;
     }
@@ -372,7 +372,7 @@ struct Vector *vec_math_pow(const struct Vector *vector, double power)
     {
         errno = ENOMEM;
         fprintf(stderr,
-                "vec_alloc: failed to allocate Vector struct (%S)\n",
+                "vec_alloc: failed to allocate Vector struct (%s)\n",
                 strerror(errno));
         return NULL;
     }
@@ -392,7 +392,7 @@ struct Vector *vec_math_sqrt(const struct Vector *vector)
     {
         errno = ENOMEM;
         fprintf(stderr,
-                "vec_alloc: failed to allocate Vector struct (%S)\n",
+                "vec_alloc: failed to allocate Vector struct (%s)\n",
                 strerror(errno));
         return NULL;
     }
@@ -779,6 +779,7 @@ int vec_math_pow_inplace(struct Vector *vector, double power)
     for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = pow(vector->data[i], power);
     }
+
     return 0;
 }
 
@@ -803,6 +804,7 @@ int vec_math_sqrt_inplace(struct Vector *vector)
     for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = sqrt(vector->data[i]);
     }
+
     return 0;
 }
 
@@ -827,6 +829,7 @@ int vec_math_cbrt_inplace(struct Vector *vector)
     for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = cbrt(vector->data[i]);
     }
+
     return 0;
 }
 
@@ -851,6 +854,7 @@ int vec_math_sin_inplace(struct Vector *vector)
     for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = sin(vector->data[i]);
     }
+
     return 0;
 }
 
@@ -900,6 +904,7 @@ int vec_math_tan_inplace(struct Vector *vector)
     for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = tan(vector->data[i]);
     }
+
     return 0;
 }
 
@@ -1000,7 +1005,7 @@ int vec_math_sinh_inplace(struct Vector *vector)
     for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = sinh(vector->data[i]);
     }
-    
+
     return 0;
 }
 
@@ -1025,6 +1030,7 @@ int vec_math_cosh_inplace(struct Vector *vector)
     for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = cosh(vector->data[i]);
     }
+
     return 0;
 }
 
@@ -1049,6 +1055,7 @@ int vec_math_tanh_inplace(struct Vector *vector)
     for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = tanh(vector->data[i]);
     }
+
     return 0;
 }
 
@@ -1073,6 +1080,7 @@ int vec_math_loge_inplace(struct Vector *vector)
     for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = log(vector->data[i]);
     }
+
     return 0;
 }
 
@@ -1099,6 +1107,7 @@ int vec_math_log_inplace(struct Vector *vector, double base)
     for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = log(vector->data[i]) / log_base;
     }
+
     return 0;
 }
 
@@ -1123,6 +1132,7 @@ int vec_math_exp_inplace(struct Vector *vector)
     for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = exp(vector->data[i]);
     }
+
     return 0;
 }
 
@@ -1147,6 +1157,7 @@ int vec_math_floor_inplace(struct Vector *vector)
     for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = floor(vector->data[i]);
     }
+
     return 0;
 }
 
@@ -1171,6 +1182,7 @@ int vec_math_ceil_inplace(struct Vector *vector)
     for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = ceil(vector->data[i]);
     }
+
     return 0;
 }
 
@@ -1196,6 +1208,7 @@ int vec_math_fmod_inplace(struct Vector *vector, double divisor)
     for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = fmod(vector->data[i], divisor);
     }
+
     return 0;
 }
 
@@ -1220,6 +1233,7 @@ int vec_math_trunc_inplace(struct Vector *vector)
     for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = trunc(vector->data[i]);
     }
+
     return 0;
 }
 
@@ -1244,6 +1258,7 @@ int vec_math_round_inplace(struct Vector *vector)
     for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = round(vector->data[i]);
     }
+
     return 0;
 }
 
@@ -1504,6 +1519,7 @@ struct Vector *vec_add_scalar(const struct Vector *v, double s)
     for(size_t i = 0; i < v->size; i++){
         new->data = v->data[i] + s;
     }
+
     return new_vec;
 }
 
@@ -1538,6 +1554,7 @@ struct Vector *vec_sub_scalar(const struct Vector *v, double s)
     for(size_t i = 0; i < v->size; i++){
         new->data = v->data[i] - s;
     }
+
     return new_vec;
 }
 
@@ -1572,6 +1589,7 @@ struct Vector *vec_mul_scalar(const struct Vector *v, double s)
     for(size_t i = 0; i < v->size; i++){
         new->data = v->data[i] * s;
     }
+
     return new_vec;
 }
 
@@ -1641,6 +1659,7 @@ int vec_add_scalar_inplace(struct Vector *v, double s)
     for(size_t i = 0; i < v->size; i++){
         v->data[i]+=s;
     }
+
     return 0;
 }
 
@@ -1667,6 +1686,7 @@ int vec_sub_scalar_inplace(struct Vector *v, double s)
     for(size_t i = 0; i < v->size; i++){
         v->data[i]-=s;
     }
+
     return 0;
 }
 
@@ -1693,6 +1713,7 @@ int vec_mul_scalar_inplace(struct Vector *v, double s)
     for(size_t i = 0; i < v->size; i++){
         v->data[i]*=s;
     }
+
     return 0;
 }
 
@@ -1725,5 +1746,6 @@ int vec_div_scalar_inplace(struct Vector *v, double s)
     for(size_t i = 0; i < v->size; i++){
         v->data[i]/=s;
     }
+
     return 0;
 }
