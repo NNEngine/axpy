@@ -821,7 +821,21 @@ int vec_math_tan_inplace(struct Vector *vector)
 
 int vec_math_asin_inplace(struct Vector *vector)
 {
-    if(!vector || !vector->data || vector->size == 0) return -1;
+    if (!vector || !vector->data) {
+        errno = EINVAL;
+        fprintf(stderr,
+                "vec_div_scalar: invalid vector pointer (%s)\n",
+                strerror(errno));
+        return NULL;
+    }
+
+    if (vector->size == 0) {
+        errno = EINVAL;
+        fprintf(stderr,
+                "vec_div_scalar: vector size is zero (%s)\n",
+                strerror(errno));
+        return NULL;
+    }
 
     for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = asin(vector->data[i]);
@@ -831,7 +845,21 @@ int vec_math_asin_inplace(struct Vector *vector)
 
 int vec_math_acos_inplace(struct Vector *vector)
 {
-    if(!vector || !vector->data || vector->size == 0) return -1;
+    if (!vector || !vector->data) {
+        errno = EINVAL;
+        fprintf(stderr,
+                "vec_div_scalar: invalid vector pointer (%s)\n",
+                strerror(errno));
+        return NULL;
+    }
+
+    if (vector->size == 0) {
+        errno = EINVAL;
+        fprintf(stderr,
+                "vec_div_scalar: vector size is zero (%s)\n",
+                strerror(errno));
+        return NULL;
+    }
 
     for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = acos(vector->data[i]);
@@ -841,7 +869,21 @@ int vec_math_acos_inplace(struct Vector *vector)
 
 int vec_math_atan_inplace(struct Vector *vector)
 {
-    if(!vector || !vector->data || vector->size == 0) return -1;
+    if (!vector || !vector->data) {
+        errno = EINVAL;
+        fprintf(stderr,
+                "vec_div_scalar: invalid vector pointer (%s)\n",
+                strerror(errno));
+        return NULL;
+    }
+
+    if (vector->size == 0) {
+        errno = EINVAL;
+        fprintf(stderr,
+                "vec_div_scalar: vector size is zero (%s)\n",
+                strerror(errno));
+        return NULL;
+    }
 
     for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = atan(vector->data[i]);
@@ -851,7 +893,21 @@ int vec_math_atan_inplace(struct Vector *vector)
 
 int vec_math_sinh_inplace(struct Vector *vector)
 {
-    if(!vector || !vector->data || vector->size == 0) return -1;
+    if (!vector || !vector->data) {
+        errno = EINVAL;
+        fprintf(stderr,
+                "vec_div_scalar: invalid vector pointer (%s)\n",
+                strerror(errno));
+        return NULL;
+    }
+
+    if (vector->size == 0) {
+        errno = EINVAL;
+        fprintf(stderr,
+                "vec_div_scalar: vector size is zero (%s)\n",
+                strerror(errno));
+        return NULL;
+    }
 
     for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = sinh(vector->data[i]);
@@ -869,7 +925,7 @@ int vec_math_cosh_inplace(struct Vector *vector)
         return NULL;
     }
 
-    if (v->size == 0) {
+    if (vector->size == 0) {
         errno = EINVAL;
         fprintf(stderr,
                 "vec_div_scalar: vector size is zero (%s)\n",
@@ -893,7 +949,7 @@ int vec_math_tanh_inplace(struct Vector *vector)
         return NULL;
     }
 
-    if (v->size == 0) {
+    if (vector->size == 0) {
         errno = EINVAL;
         fprintf(stderr,
                 "vec_div_scalar: vector size is zero (%s)\n",
@@ -917,7 +973,7 @@ int vec_math_loge_inplace(struct Vector *vector)
         return NULL;
     }
 
-    if (v->size == 0) {
+    if (vector->size == 0) {
         errno = EINVAL;
         fprintf(stderr,
                 "vec_div_scalar: vector size is zero (%s)\n",
@@ -941,7 +997,7 @@ int vec_math_log_inplace(struct Vector *vector, double base)
         return NULL;
     }
 
-    if (v->size == 0) {
+    if (vector->size == 0) {
         errno = EINVAL;
         fprintf(stderr,
                 "vec_div_scalar: vector size is zero (%s)\n",
@@ -967,7 +1023,7 @@ int vec_math_exp_inplace(struct Vector *vector)
         return NULL;
     }
 
-    if (v->size == 0) {
+    if (vector->size == 0) {
         errno = EINVAL;
         fprintf(stderr,
                 "vec_div_scalar: vector size is zero (%s)\n",
@@ -991,7 +1047,7 @@ int vec_math_floor_inplace(struct Vector *vector)
         return NULL;
     }
 
-    if (v->size == 0) {
+    if (vector->size == 0) {
         errno = EINVAL;
         fprintf(stderr,
                 "vec_div_scalar: vector size is zero (%s)\n",
@@ -1007,7 +1063,21 @@ int vec_math_floor_inplace(struct Vector *vector)
 
 int vec_math_ceil_inplace(struct Vector *vector)
 {
-    if(!vector || !vector->data || vector->size == 0) return -1;
+    if (!vector || !vector->data) {
+        errno = EINVAL;
+        fprintf(stderr,
+                "vec_div_scalar: invalid vector pointer (%s)\n",
+                strerror(errno));
+        return NULL;
+    }
+
+    if (vector->size == 0) {
+        errno = EINVAL;
+        fprintf(stderr,
+                "vec_div_scalar: vector size is zero (%s)\n",
+                strerror(errno));
+        return NULL;
+    }
 
     for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = ceil(vector->data[i]);
@@ -1025,7 +1095,7 @@ int vec_math_fmod_inplace(struct Vector *vector, double divisor)
         return NULL;
     }
 
-    if (v->size == 0) {
+    if (vector->size == 0) {
         errno = EINVAL;
         fprintf(stderr,
                 "vec_div_scalar: vector size is zero (%s)\n",
@@ -1050,7 +1120,7 @@ int vec_math_trunc_inplace(struct Vector *vector)
         return NULL;
     }
 
-    if (v->size == 0) {
+    if (vector->size == 0) {
         errno = EINVAL;
         fprintf(stderr,
                 "vec_div_scalar: vector size is zero (%s)\n",
