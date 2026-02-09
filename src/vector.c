@@ -1268,3 +1268,114 @@ struct Vector *vec_div_scalar(const struct Vector *v, double s)
     }
     return new_vec;
 }
+
+/* Scalar Functions (inplace) */
+int vec_add_scalar_inplace(struct Vector *v, double s)
+{
+    if (!v) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_div_scalar_inplace error: vector pointer is NULL\n");
+        return -1;
+    }
+
+    if (!v->data) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_div_scalar_inplace error: vector data pointer is NULL\n");
+        return -1;
+    }
+
+    if (v->size == 0) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_div_scalar_inplace error: vector size is zero\n");
+        return -1;
+    }
+
+    for(size_t i = 0; i < v->size; i++){
+        v->data[i]+=s;
+    }
+    return 0;
+}
+
+int vec_sub_scalar_inplace(struct Vector *v, double s)
+{
+    if (!v) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_div_scalar_inplace error: vector pointer is NULL\n");
+        return -1;
+    }
+
+    if (!v->data) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_div_scalar_inplace error: vector data pointer is NULL\n");
+        return -1;
+    }
+
+    if (v->size == 0) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_div_scalar_inplace error: vector size is zero\n");
+        return -1;
+    }
+
+    for(size_t i = 0; i < v->size; i++){
+        v->data[i]-=s;
+    }
+    return 0;
+}
+
+int vec_mul_scalar_inplace(struct Vector *v, double s)
+{
+    if (!v) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_div_scalar_inplace error: vector pointer is NULL\n");
+        return -1;
+    }
+
+    if (!v->data) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_div_scalar_inplace error: vector data pointer is NULL\n");
+        return -1;
+    }
+
+    if (v->size == 0) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_div_scalar_inplace error: vector size is zero\n");
+        return -1;
+    }
+
+    for(size_t i = 0; i < v->size; i++){
+        v->data[i]*=s;
+    }
+    return 0;
+}
+
+int vec_div_scalar_inplace(struct Vector *v, double s)
+{
+    if (!v) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_div_scalar_inplace error: vector pointer is NULL\n");
+        return -1;
+    }
+
+    if (!v->data) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_div_scalar_inplace error: vector data pointer is NULL\n");
+        return -1;
+    }
+
+    if (v->size == 0) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_div_scalar_inplace error: vector size is zero\n");
+        return -1;
+    }
+
+    if (s == 0.0) {
+        errno = ERANGE;
+        fprintf(stderr, "vec_div_scalar_inplace error: division by zero scalar\n");
+        return -1;
+    }
+
+    for(size_t i = 0; i < v->size; i++){
+        v->data[i]/=s;
+    }
+    return 0;
+}
