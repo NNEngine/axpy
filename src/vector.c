@@ -945,7 +945,21 @@ int vec_math_fmod_inplace(struct Vector *vector, double divisor)
 
 int vec_math_trunc_inplace(struct Vector *vector)
 {
-    if(!vector || !vector->data || vector->size == 0) return -1;
+    if (!vector || !vector->data) {
+        errno = EINVAL;
+        fprintf(stderr,
+                "vec_div_scalar: invalid vector pointer (%s)\n",
+                strerror(errno));
+        return NULL;
+    }
+
+    if (v->size == 0) {
+        errno = EINVAL;
+        fprintf(stderr,
+                "vec_div_scalar: vector size is zero (%s)\n",
+                strerror(errno));
+        return NULL;
+    }
 
     for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = trunc(vector->data[i]);
@@ -955,7 +969,21 @@ int vec_math_trunc_inplace(struct Vector *vector)
 
 int vec_math_round_inplace(struct Vector *vector)
 {
-    if(!vector || !vector->data || vector->size == 0) return -1;
+    if (!vector || !vector->data) {
+        errno = EINVAL;
+        fprintf(stderr,
+                "vec_div_scalar: invalid vector pointer (%s)\n",
+                strerror(errno));
+        return NULL;
+    }
+
+    if (vector->size == 0) {
+        errno = EINVAL;
+        fprintf(stderr,
+                "vec_div_scalar: vector size is zero (%s)\n",
+                strerror(errno));
+        return NULL;
+    }
 
     for(size_t i = 0; i < vector->size; i++){
         vector->data[i] = round(vector->data[i]);
@@ -1191,7 +1219,21 @@ struct Vector *vec_sub(const struct Vector *a, const struct Vector *b)
 
 struct Vector *vec_add_scalar(const struct Vector *v, double s)
 {
-    if(!v || !v->data || !v->size == 0) return NULL;
+    if (!v || !v->data) {
+        errno = EINVAL;
+        fprintf(stderr,
+                "vec_div_scalar: invalid vector pointer (%s)\n",
+                strerror(errno));
+        return NULL;
+    }
+
+    if (v->size == 0) {
+        errno = EINVAL;
+        fprintf(stderr,
+                "vec_div_scalar: vector size is zero (%s)\n",
+                strerror(errno));
+        return NULL;
+    }
 
     struct Vector *new_vec = vec_alloc(v->size);
     if(!new_vec){
@@ -1211,7 +1253,21 @@ struct Vector *vec_add_scalar(const struct Vector *v, double s)
 
 struct Vector *vec_sub_scalar(const struct Vector *v, double s)
 {
-    if(!v || !v->data || !v->size == 0) return NULL;
+    if (!v || !v->data) {
+        errno = EINVAL;
+        fprintf(stderr,
+                "vec_div_scalar: invalid vector pointer (%s)\n",
+                strerror(errno));
+        return NULL;
+    }
+
+    if (v->size == 0) {
+        errno = EINVAL;
+        fprintf(stderr,
+                "vec_div_scalar: vector size is zero (%s)\n",
+                strerror(errno));
+        return NULL;
+    }
 
     struct Vector *new_vec = vec_alloc(v->size);
     if(!new_vec){
@@ -1231,7 +1287,21 @@ struct Vector *vec_sub_scalar(const struct Vector *v, double s)
 
 struct Vector *vec_mul_scalar(const struct Vector *v, double s)
 {
-    if(!v || !v->data || !v->size == 0) return NULL;
+    if (!v || !v->data) {
+        errno = EINVAL;
+        fprintf(stderr,
+                "vec_div_scalar: invalid vector pointer (%s)\n",
+                strerror(errno));
+        return NULL;
+    }
+
+    if (v->size == 0) {
+        errno = EINVAL;
+        fprintf(stderr,
+                "vec_div_scalar: vector size is zero (%s)\n",
+                strerror(errno));
+        return NULL;
+    }
 
     struct Vector *new_vec = vec_alloc(v->size);
     if(!new_vec){
@@ -1251,21 +1321,43 @@ struct Vector *vec_mul_scalar(const struct Vector *v, double s)
 
 struct Vector *vec_div_scalar(const struct Vector *v, double s)
 {
-    if(!v || !v->data || !v->size == 0) return NULL;
-
-    struct Vector *new_vec = vec_alloc(v->size);
-    if(!new_vec){
-        errno = ENOMEM;
+    if (!v || !v->data) {
+        errno = EINVAL;
         fprintf(stderr,
-                "vec_alloc: failed to allocate Vector struct (%s)\n",
-                stderror(errno)
-        );
+                "vec_div_scalar: invalid vector pointer (%s)\n",
+                strerror(errno));
         return NULL;
     }
 
-    for(size_t i = 0; i < v->size; i++){
-        new->data = v->data[i] / s;
+    if (v->size == 0) {
+        errno = EINVAL;
+        fprintf(stderr,
+                "vec_div_scalar: vector size is zero (%s)\n",
+                strerror(errno));
+        return NULL;
     }
+
+    if (s == 0.0) {
+        errno = ERANGE;
+        fprintf(stderr,
+                "vec_div_scalar: division by zero scalar (%s)\n",
+                strerror(errno));
+        return NULL;
+    }
+
+    struct Vector *new_vec = vec_alloc(v->size);
+    if (!new_vec) {
+        errno = ENOMEM;
+        fprintf(stderr,
+                "vec_div_scalar: allocation failed (%s)\n",
+                strerror(errno));
+        return NULL;
+    }
+
+    for (size_t i = 0; i < v->size; ++i){
+        new_vec->data[i] = v->data[i] / s;
+    }
+
     return new_vec;
 }
 
