@@ -1208,3 +1208,63 @@ struct Vector *vec_add_scalar(const struct Vector *v, double s)
     }
     return new_vec;
 }
+
+struct Vector *vec_sub_scalar(const struct Vector *v, double s)
+{
+    if(!v || !v->data || !v->size == 0) return NULL;
+
+    struct Vector *new_vec = vec_alloc(v->size);
+    if(!new_vec){
+        errno = ENOMEM;
+        fprintf(stderr,
+                "vec_alloc: failed to allocate Vector struct (%s)\n",
+                stderror(errno)
+        );
+        return NULL;
+    }
+
+    for(size_t i = 0; i < v->size; i++){
+        new->data = v->data[i] - s;
+    }
+    return new_vec;
+}
+
+struct Vector *vec_mul_scalar(const struct Vector *v, double s)
+{
+    if(!v || !v->data || !v->size == 0) return NULL;
+
+    struct Vector *new_vec = vec_alloc(v->size);
+    if(!new_vec){
+        errno = ENOMEM;
+        fprintf(stderr,
+                "vec_alloc: failed to allocate Vector struct (%s)\n",
+                stderror(errno)
+        );
+        return NULL;
+    }
+
+    for(size_t i = 0; i < v->size; i++){
+        new->data = v->data[i] * s;
+    }
+    return new_vec;
+}
+
+struct Vector *vec_div_scalar(const struct Vector *v, double s)
+{
+    if(!v || !v->data || !v->size == 0) return NULL;
+
+    struct Vector *new_vec = vec_alloc(v->size);
+    if(!new_vec){
+        errno = ENOMEM;
+        fprintf(stderr,
+                "vec_alloc: failed to allocate Vector struct (%s)\n",
+                stderror(errno)
+        );
+        return NULL;
+    }
+
+    for(size_t i = 0; i < v->size; i++){
+        new->data = v->data[i] / s;
+    }
+    return new_vec;
+}
