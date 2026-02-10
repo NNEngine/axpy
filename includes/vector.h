@@ -112,4 +112,42 @@ double vec_asum(const struct Vector *v);
 int vec_iamax(const struct Vector *v);
 
 
+/* Statistical functions */
+double vec_var(const struct Vector *v);
+double vec_std(const struct Vector *v);
+double vec_median(const struct Vector *v);
+double vec_percentile(const struct Vector *v, double p);
+double vec_sum_of_squares(const struct Vector *v);
+double vec_cov(const struct Vector *a, const struct Vector *b);
+double vec_corr(const struct Vector *a, const struct Vector *b);
+
+/* Comparison Functions */
+struct Vector *vec_gt(const struct Vector *a, const struct Vector *b);
+struct Vector *vec_lt(const struct Vector *a, const struct Vector *b);
+struct Vector *vec_eq(const struct Vector *a, const struct Vector *b);
+
+struct Vector *vec_gt_scalar(const struct Vector *v, double s);
+struct Vector *vec_lt_scalar(const struct Vector *v, double s);
+struct Vector *vec_eq_scalar(const struct Vector *v, double s);
+
+/* Mask / selection operations */
+struct Vector *vec_where(const struct Vector *mask,
+                         const struct Vector *a,
+                         const struct Vector *b);
+
+struct Vector *vec_filter(const struct Vector *v,
+                          const struct Vector *mask);
+
+
+/* sorting/ranking */
+int vec_sort(struct Vector *v);
+int vec_argsort(const struct Vector *v, int *indices);
+double vec_kth(const struct Vector *v, size_t k);
+
+/* distance functions */
+double vec_l1_distance(const struct Vector *a, const struct Vector *b);
+double vec_l2_distance(const struct Vector *a, const struct Vector *b);
+double vec_cosine_similarity(const struct Vector *a, const struct Vector *b);
+
+
 #endif
