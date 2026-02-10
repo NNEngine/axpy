@@ -131,12 +131,8 @@ struct Vector *vec_lt_scalar(const struct Vector *v, double s);
 struct Vector *vec_eq_scalar(const struct Vector *v, double s);
 
 /* Mask / selection operations */
-struct Vector *vec_where(const struct Vector *mask,
-                         const struct Vector *a,
-                         const struct Vector *b);
-
-struct Vector *vec_filter(const struct Vector *v,
-                          const struct Vector *mask);
+struct Vector *vec_where(const struct Vector *mask, const struct Vector *a, const struct Vector *b);
+struct Vector *vec_filter(const struct Vector *v, const struct Vector *mask);
 
 
 /* sorting/ranking */
