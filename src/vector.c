@@ -1749,3 +1749,159 @@ int vec_div_scalar_inplace(struct Vector *v, double s)
 
     return 0;
 }
+
+/* Statistical functions */
+
+double vec_var(const struct Vector *v)
+{
+    if (!v) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_div_scalar_inplace error: vector pointer is NULL\n");
+        return -1;
+    }
+
+    if (!v->data) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_div_scalar_inplace error: vector data pointer is NULL\n");
+        return -1;
+    }
+
+    if (v->size == 0) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_div_scalar_inplace error: vector size is zero\n");
+        return -1;
+    }
+
+    double mean = 0.0;
+    for (size_t i = 0; i < v->size; ++i)
+        mean += v->data[i];
+    mean /= v->size;
+
+    double var = 0.0;
+    for (size_t i = 0; i < v->size; ++i) {
+        double diff = v->data[i] - mean;
+        var += diff * diff;
+    }
+
+    return var / v->size;
+}
+
+double vec_std(const struct Vector *v)
+{
+    double variance = vec_var(v);
+    return sqrt(variance);
+}
+
+double vec_median(const struct Vector *v)
+{
+    if (!v) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_div_scalar_inplace error: vector pointer is NULL\n");
+        return -1;
+    }
+
+    if (!v->data) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_div_scalar_inplace error: vector data pointer is NULL\n");
+        return -1;
+    }
+
+    if (v->size == 0) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_div_scalar_inplace error: vector size is zero\n");
+        return -1;
+    }
+
+    double *copy = malloc(sizeof(double) * v->size);
+    if (!copy) return -1;
+
+    memcpy(copy, v->data, sizeof(double) * v->size);
+    qsort(copy, v->size, sizeof(double), cmp_double);
+
+    double median;
+    if (v->size % 2 == 0)
+        median = (copy[v->size/2 - 1] + copy[v->size/2]) / 2.0;
+    else
+        median = copy[v->size/2];
+
+    free(copy);
+    return median;
+}
+
+double vec_percentile(const struct Vector *v, double p)
+{
+    if (!v) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_div_scalar_inplace error: vector pointer is NULL\n");
+        return -1;
+    }
+
+    if (!v->data) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_div_scalar_inplace error: vector data pointer is NULL\n");
+        return -1;
+    }
+
+    if (v->size == 0) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_div_scalar_inplace error: vector size is zero\n");
+        return -1;
+    }
+
+    if (p < 0.0 || p > 100.0){
+        errno = ERANGE;
+        fprintf(stderr, "vec_percentile error: p is out of range\n");
+        return -1;
+    }
+
+    double *copy = malloc(sizeof(double) * v->size);
+    if (!copy) return -1;
+
+    memcpy(copy, v->data, sizeof(double) * v->size);
+    qsort(copy, v->size, sizeof(double), cmp_double);
+
+    size_t idx = (size_t)ceil((p / 100.0) * v->size) - 1;
+    if (idx >= v->size) idx = v->size - 1;
+
+    double result = copy[idx];
+    free(copy);
+    return result;
+}
+
+double vec_sum_of_squares(const struct Vector *v)
+{
+    if (!v) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_div_scalar_inplace error: vector pointer is NULL\n");
+        return -1;
+    }
+
+    if (!v->data) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_div_scalar_inplace error: vector data pointer is NULL\n");
+        return -1;
+    }
+
+    if (v->size == 0) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_div_scalar_inplace error: vector size is zero\n");
+        return -1;
+    }
+
+    double sum = 0.0;
+    for (size_t i = 0; i < v->size; ++i)
+        sum += v->data[i] * v->data[i];
+
+    return sum;
+}
+
+
+
+
+
+static int cmp_double(const void *a, const void *b)
+{
+    double x = *(const double *)a;
+    double y = *(const double *)b;
+    return (x > y) - (x < y);
+}
