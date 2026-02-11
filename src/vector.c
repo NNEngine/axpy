@@ -1828,6 +1828,13 @@ double vec_median(const struct Vector *v)
     return median;
 }
 
+static int cmp_double(const void *a, const void *b)
+{
+    double x = *(const double *)a;
+    double y = *(const double *)b;
+    return (x > y) - (x < y);
+}
+
 double vec_percentile(const struct Vector *v, double p)
 {
     if (!v) {
@@ -1893,15 +1900,4 @@ double vec_sum_of_squares(const struct Vector *v)
         sum += v->data[i] * v->data[i];
 
     return sum;
-}
-
-
-
-
-
-static int cmp_double(const void *a, const void *b)
-{
-    double x = *(const double *)a;
-    double y = *(const double *)b;
-    return (x > y) - (x < y);
 }
