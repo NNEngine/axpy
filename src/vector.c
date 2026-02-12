@@ -1667,19 +1667,19 @@ int vec_sub_scalar_inplace(struct Vector *v, double s)
 {
     if (!v) {
         errno = EINVAL;
-        fprintf(stderr, "vec_div_scalar_inplace error: vector pointer is NULL\n");
+        fprintf(stderr, "vec_sub_scalar_inplace error: vector pointer is NULL\n");
         return -1;
     }
 
     if (!v->data) {
         errno = EINVAL;
-        fprintf(stderr, "vec_div_scalar_inplace error: vector data pointer is NULL\n");
+        fprintf(stderr, "vec_sub_scalar_inplace error: vector data pointer is NULL\n");
         return -1;
     }
 
     if (v->size == 0) {
         errno = EINVAL;
-        fprintf(stderr, "vec_div_scalar_inplace error: vector size is zero\n");
+        fprintf(stderr, "vec_sub_scalar_inplace error: vector size is zero\n");
         return -1;
     }
 
@@ -1694,19 +1694,19 @@ int vec_mul_scalar_inplace(struct Vector *v, double s)
 {
     if (!v) {
         errno = EINVAL;
-        fprintf(stderr, "vec_div_scalar_inplace error: vector pointer is NULL\n");
+        fprintf(stderr, "vec_mul_scalar_inplace error: vector pointer is NULL\n");
         return -1;
     }
 
     if (!v->data) {
         errno = EINVAL;
-        fprintf(stderr, "vec_div_scalar_inplace error: vector data pointer is NULL\n");
+        fprintf(stderr, "vec_mul_scalar_inplace error: vector data pointer is NULL\n");
         return -1;
     }
 
     if (v->size == 0) {
         errno = EINVAL;
-        fprintf(stderr, "vec_div_scalar_inplace error: vector size is zero\n");
+        fprintf(stderr, "vec_mul_scalar_inplace error: vector size is zero\n");
         return -1;
     }
 
@@ -1756,19 +1756,19 @@ double vec_var(const struct Vector *v)
 {
     if (!v) {
         errno = EINVAL;
-        fprintf(stderr, "vec_div_scalar_inplace error: vector pointer is NULL\n");
+        fprintf(stderr, "vec_var error: vector pointer is NULL\n");
         return -1;
     }
 
     if (!v->data) {
         errno = EINVAL;
-        fprintf(stderr, "vec_div_scalar_inplace error: vector data pointer is NULL\n");
+        fprintf(stderr, "vec_var error: vector data pointer is NULL\n");
         return -1;
     }
 
     if (v->size == 0) {
         errno = EINVAL;
-        fprintf(stderr, "vec_div_scalar_inplace error: vector size is zero\n");
+        fprintf(stderr, "vec_var error: vector size is zero\n");
         return -1;
     }
 
@@ -1796,19 +1796,19 @@ double vec_median(const struct Vector *v)
 {
     if (!v) {
         errno = EINVAL;
-        fprintf(stderr, "vec_div_scalar_inplace error: vector pointer is NULL\n");
+        fprintf(stderr, "vec_median error: vector pointer is NULL\n");
         return -1;
     }
 
     if (!v->data) {
         errno = EINVAL;
-        fprintf(stderr, "vec_div_scalar_inplace error: vector data pointer is NULL\n");
+        fprintf(stderr, "vec_median error: vector data pointer is NULL\n");
         return -1;
     }
 
     if (v->size == 0) {
         errno = EINVAL;
-        fprintf(stderr, "vec_div_scalar_inplace error: vector size is zero\n");
+        fprintf(stderr, "vec_median error: vector size is zero\n");
         return -1;
     }
 
@@ -1839,19 +1839,19 @@ double vec_percentile(const struct Vector *v, double p)
 {
     if (!v) {
         errno = EINVAL;
-        fprintf(stderr, "vec_div_scalar_inplace error: vector pointer is NULL\n");
+        fprintf(stderr, "vec_percentile error: vector pointer is NULL\n");
         return -1;
     }
 
     if (!v->data) {
         errno = EINVAL;
-        fprintf(stderr, "vec_div_scalar_inplace error: vector data pointer is NULL\n");
+        fprintf(stderr, "vec_percentile error: vector data pointer is NULL\n");
         return -1;
     }
 
     if (v->size == 0) {
         errno = EINVAL;
-        fprintf(stderr, "vec_div_scalar_inplace error: vector size is zero\n");
+        fprintf(stderr, "vec_percentile error: vector size is zero\n");
         return -1;
     }
 
@@ -1879,19 +1879,19 @@ double vec_sum_of_squares(const struct Vector *v)
 {
     if (!v) {
         errno = EINVAL;
-        fprintf(stderr, "vec_div_scalar_inplace error: vector pointer is NULL\n");
+        fprintf(stderr, "vec_sum_of_squares error: vector pointer is NULL\n");
         return -1;
     }
 
     if (!v->data) {
         errno = EINVAL;
-        fprintf(stderr, "vec_div_scalar_inplace error: vector data pointer is NULL\n");
+        fprintf(stderr, "vec_sum_of_squares error: vector data pointer is NULL\n");
         return -1;
     }
 
     if (v->size == 0) {
         errno = EINVAL;
-        fprintf(stderr, "vec_div_scalar_inplace error: vector size is zero\n");
+        fprintf(stderr, "vec_sum_of_squares error: vector size is zero\n");
         return -1;
     }
 
