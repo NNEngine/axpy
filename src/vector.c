@@ -1191,7 +1191,7 @@ int vec_math_fmod_inplace(struct Vector *vector, double divisor)
     if (!vector || !vector->data) {
         errno = EINVAL;
         fprintf(stderr,
-                "vec_div_scalar: invalid vector pointer (%s)\n",
+                "vec_math_fmod_inplace: invalid vector pointer (%s)\n",
                 strerror(errno));
         return NULL;
     }
@@ -1199,7 +1199,7 @@ int vec_math_fmod_inplace(struct Vector *vector, double divisor)
     if (vector->size == 0) {
         errno = EINVAL;
         fprintf(stderr,
-                "vec_div_scalar: vector size is zero (%s)\n",
+                "vec_math_fmod_inplace: vector size is zero (%s)\n",
                 strerror(errno));
         return NULL;
     }
@@ -1217,7 +1217,7 @@ int vec_math_trunc_inplace(struct Vector *vector)
     if (!vector || !vector->data) {
         errno = EINVAL;
         fprintf(stderr,
-                "vec_div_scalar: invalid vector pointer (%s)\n",
+                "vec_math_trunc_inplace: invalid vector pointer (%s)\n",
                 strerror(errno));
         return NULL;
     }
@@ -1225,7 +1225,7 @@ int vec_math_trunc_inplace(struct Vector *vector)
     if (vector->size == 0) {
         errno = EINVAL;
         fprintf(stderr,
-                "vec_div_scalar: vector size is zero (%s)\n",
+                "vec_math_trunc_inplace: vector size is zero (%s)\n",
                 strerror(errno));
         return NULL;
     }
@@ -1242,7 +1242,7 @@ int vec_math_round_inplace(struct Vector *vector)
     if (!vector || !vector->data) {
         errno = EINVAL;
         fprintf(stderr,
-                "vec_div_scalar: invalid vector pointer (%s)\n",
+                "vec_math_round_inplace: invalid vector pointer (%s)\n",
                 strerror(errno));
         return NULL;
     }
@@ -1250,7 +1250,7 @@ int vec_math_round_inplace(struct Vector *vector)
     if (vector->size == 0) {
         errno = EINVAL;
         fprintf(stderr,
-                "vec_div_scalar: vector size is zero (%s)\n",
+                "vec_math_round_inplace: vector size is zero (%s)\n",
                 strerror(errno));
         return NULL;
     }
@@ -1493,7 +1493,7 @@ struct Vector *vec_add_scalar(const struct Vector *v, double s)
     if (!v || !v->data) {
         errno = EINVAL;
         fprintf(stderr,
-                "vec_div_scalar: invalid vector pointer (%s)\n",
+                "vec_add_scalar: invalid vector pointer (%s)\n",
                 strerror(errno));
         return NULL;
     }
@@ -1501,7 +1501,7 @@ struct Vector *vec_add_scalar(const struct Vector *v, double s)
     if (v->size == 0) {
         errno = EINVAL;
         fprintf(stderr,
-                "vec_div_scalar: vector size is zero (%s)\n",
+                "vec_add_scalar: vector size is zero (%s)\n",
                 strerror(errno));
         return NULL;
     }
@@ -1528,7 +1528,7 @@ struct Vector *vec_sub_scalar(const struct Vector *v, double s)
     if (!v || !v->data) {
         errno = EINVAL;
         fprintf(stderr,
-                "vec_div_scalar: invalid vector pointer (%s)\n",
+                "vec_sub_scalar: invalid vector pointer (%s)\n",
                 strerror(errno));
         return NULL;
     }
@@ -1536,7 +1536,7 @@ struct Vector *vec_sub_scalar(const struct Vector *v, double s)
     if (v->size == 0) {
         errno = EINVAL;
         fprintf(stderr,
-                "vec_div_scalar: vector size is zero (%s)\n",
+                "vec_sub_scalar: vector size is zero (%s)\n",
                 strerror(errno));
         return NULL;
     }
@@ -1563,7 +1563,7 @@ struct Vector *vec_mul_scalar(const struct Vector *v, double s)
     if (!v || !v->data) {
         errno = EINVAL;
         fprintf(stderr,
-                "vec_div_scalar: invalid vector pointer (%s)\n",
+                "vec_mul_scalar: invalid vector pointer (%s)\n",
                 strerror(errno));
         return NULL;
     }
@@ -1571,7 +1571,7 @@ struct Vector *vec_mul_scalar(const struct Vector *v, double s)
     if (v->size == 0) {
         errno = EINVAL;
         fprintf(stderr,
-                "vec_div_scalar: vector size is zero (%s)\n",
+                "vec_mul_scalar: vector size is zero (%s)\n",
                 strerror(errno));
         return NULL;
     }
@@ -1640,19 +1640,19 @@ int vec_add_scalar_inplace(struct Vector *v, double s)
 {
     if (!v) {
         errno = EINVAL;
-        fprintf(stderr, "vec_div_scalar_inplace error: vector pointer is NULL\n");
+        fprintf(stderr, "vec_add_scalar_inplace error: vector pointer is NULL\n");
         return -1;
     }
 
     if (!v->data) {
         errno = EINVAL;
-        fprintf(stderr, "vec_div_scalar_inplace error: vector data pointer is NULL\n");
+        fprintf(stderr, "vec_add_scalar_inplace error: vector data pointer is NULL\n");
         return -1;
     }
 
     if (v->size == 0) {
         errno = EINVAL;
-        fprintf(stderr, "vec_div_scalar_inplace error: vector size is zero\n");
+        fprintf(stderr, "vec_add_scalar_inplace error: vector size is zero\n");
         return -1;
     }
 
@@ -1900,4 +1900,29 @@ double vec_sum_of_squares(const struct Vector *v)
         sum += v->data[i] * v->data[i];
 
     return sum;
+}
+
+double vec_cov(const struct Vector *a, const struct Vector *b)
+{
+    if (!a || !b || a->size != b->size || a->size == 0)
+        return NAN;
+
+    size_t n = a->size;
+
+    double mean_a = 0.0, mean_b = 0.0;
+
+    for (size_t i = 0; i < n; ++i) {
+        mean_a += a->data[i];
+        mean_b += b->data[i];
+    }
+
+    mean_a /= n;
+    mean_b /= n;
+
+    double cov = 0.0;
+
+    for (size_t i = 0; i < n; ++i)
+        cov += (a->data[i] - mean_a) * (b->data[i] - mean_b);
+
+    return cov / n;
 }
