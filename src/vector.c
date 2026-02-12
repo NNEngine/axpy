@@ -1904,17 +1904,29 @@ double vec_sum_of_squares(const struct Vector *v)
 
 double vec_cov(const struct Vector *a, const struct Vector *b)
 {
-    if (!a || !b || a->size != b->size || a->size == 0)
-        return NAN;
+
+    if (!a || !b) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_cov error: vector pointer is NULL\n");
+        return -1;
+    }
+
+    if (!a->data || !b->size) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_cov error: vector data pointer is NULL\n");
+        return -1;
+    }
+
+    if (a->size == 0 || b->size == 0) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_cov error: vector size is zero\n");
+        return -1;
+    }
 
     size_t n = a->size;
 
-    double mean_a = 0.0, mean_b = 0.0;
-
-    for (size_t i = 0; i < n; ++i) {
-        mean_a += a->data[i];
-        mean_b += b->data[i];
-    }
+    double mean_a = vec_aggr_mean(a);
+    double mean_b = vec_aggr_mean(b);
 
     mean_a /= n;
     mean_b /= n;
@@ -1925,4 +1937,127 @@ double vec_cov(const struct Vector *a, const struct Vector *b)
         cov += (a->data[i] - mean_a) * (b->data[i] - mean_b);
 
     return cov / n;
+}
+
+double vec_corr(const struct Vector *a, const struct Vector *b)
+{
+    if (!a || !b) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_cov error: vector pointer is NULL\n");
+        return -1;
+    }
+
+    if (!a->data || !b->size) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_cov error: vector data pointer is NULL\n");
+        return -1;
+    }
+
+    if (a->size == 0 || b->size == 0) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_cov error: vector size is zero\n");
+        return -1;
+    }
+
+    size_t n = a->size;
+
+    double mean_a = vec_aggr_mean(a);
+    double mean_b = vec_aggr_mean(b);
+
+    mean_a /= n;
+    mean_b /= n;
+
+    double cov = 0.0;
+    double var_a = 0.0;
+    double var_b = 0.0;
+
+    for (size_t i = 0; i < n; ++i) {
+        double da = a->data[i] - mean_a;
+        double db = b->data[i] - mean_b;
+
+        cov   += da * db;
+        var_a += da * da;
+        var_b += db * db;
+    }
+
+    if (var_a == 0.0 || var_b == 0.0)
+        return NAN;
+
+    return (cov / n) / (sqrt(var_a / n) * sqrt(var_b / n));
+}
+
+#define EPS 1e-12   /* for floating equality */
+
+struct Vector *vec_gt(const struct Vector *a, const struct Vector *b)
+{
+    if (!a || !b) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_cov error: vector pointer is NULL\n");
+        return NULL;
+    }
+
+    if (!a->data || !b->size) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_cov error: vector data pointer is NULL\n");
+        return NULL;
+    }
+
+    if (a->size == 0 || b->size == 0) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_cov error: vector size is zero\n");
+        return NULL;
+    }
+
+    struct Vector *out = vec_alloc(a->size);
+    if (!out) return NULL;
+
+    for (size_t i = 0; i < a->size; ++i)
+        out->data[i] = (a->data[i] > b->data[i]) ? 1.0 : 0.0;
+
+    return out;
+}
+
+
+struct Vector *vec_lt(const struct Vector *a, const struct Vector *b)
+{
+    if (!a || !b) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_cov error: vector pointer is NULL\n");
+        return NULL;
+    }
+
+    if (!a->data || !b->size) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_cov error: vector data pointer is NULL\n");
+        return NULL;
+    }
+
+    if (a->size == 0 || b->size == 0) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_cov error: vector size is zero\n");
+        return NULL;
+    }
+
+    struct Vector *out = vec_alloc(a->size);
+    if (!out) return NULL;
+
+    for (size_t i = 0; i < a->size; ++i)
+        out->data[i] = (a->data[i] < b->data[i]) ? 1.0 : 0.0;
+
+    return out;
+}
+
+struct Vector *vec_eq(const struct Vector *a, const struct Vector *b)
+{
+    if (!a || !b || a->size != b->size)
+        return NULL;
+
+    struct Vector *out = vec_alloc(a->size);
+    if (!out) return NULL;
+
+    for (size_t i = 0; i < a->size; ++i)
+        out->data[i] =
+            (fabs(a->data[i] - b->data[i]) < EPS) ? 1.0 : 0.0;
+
+    return out;
 }
