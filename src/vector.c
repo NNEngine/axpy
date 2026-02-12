@@ -2039,7 +2039,13 @@ struct Vector *vec_lt(const struct Vector *a, const struct Vector *b)
     }
 
     struct Vector *out = vec_alloc(a->size);
-    if (!out) return NULL;
+    if (!out){
+        errno = ENOMEM;
+        fprintf(stderr, "vec_alloc error: failed to allocate memory (%s)\n",
+        strerror(errno));
+
+        return NULL;
+    }
 
     for (size_t i = 0; i < a->size; ++i)
         out->data[i] = (a->data[i] < b->data[i]) ? 1.0 : 0.0;
@@ -2049,11 +2055,32 @@ struct Vector *vec_lt(const struct Vector *a, const struct Vector *b)
 
 struct Vector *vec_eq(const struct Vector *a, const struct Vector *b)
 {
-    if (!a || !b || a->size != b->size)
+    if (!a || !b) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_eq error: vector pointer is NULL\n");
         return NULL;
+    }
+
+    if (!a->data || !b->size) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_eq error: vector data pointer is NULL\n");
+        return NULL;
+    }
+
+    if (a->size == 0 || b->size == 0) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_eq error: vector size is zero\n");
+        return NULL;
+    }
 
     struct Vector *out = vec_alloc(a->size);
-    if (!out) return NULL;
+    if (!out){
+        errno = ENOMEM;
+        fprintf(stderr, "vec_alloc error: failed to allocate memory (%s)\n",
+        strerror(errno));
+
+        return NULL;
+    }
 
     for (size_t i = 0; i < a->size; ++i)
         out->data[i] =
