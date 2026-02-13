@@ -1267,8 +1267,23 @@ int vec_math_round_inplace(struct Vector *vector)
 
 struct Vector *vec_mul(const struct Vector *a, const struct Vector *b)
 {
-    if(!a || !b || !a->data || !b->data) return NULL;
-    if(a->size == 0 || b->size ==0) return NULL;
+    if (!a || !b) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_add error: vector pointer is NULL\n");
+        return NULL;
+    }
+
+    if (!a->data || !b->size) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_add error: vector data pointer is NULL\n");
+        return NULL;
+    }
+
+    if (a->size == 0 || b->size == 0) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_add error: vector size is zero\n");
+        return NULL;
+    }
     if(a->size != b->size) return NULL:
 
     struct Vector *new_vec = vec_alloc(a->size);
@@ -1422,8 +1437,23 @@ int vec_iamax(const struct Vector *v)
 
 struct Vector *vec_add(const struct Vector *a, const struct Vector *b)
 {
-    if (!a || !b) return NULL;
-    if (a->size != b->size) return NULL;
+    if (!a || !b) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_add error: vector pointer is NULL\n");
+        return NULL;
+    }
+
+    if (!a->data || !b->size) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_add error: vector data pointer is NULL\n");
+        return NULL;
+    }
+
+    if (a->size == 0 || b->size == 0) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_add error: vector size is zero\n");
+        return NULL;
+    }
 
     struct Vector *c = vec_alloc(a->size);
     if(!c){
@@ -1455,8 +1485,23 @@ struct Vector *vec_add(const struct Vector *a, const struct Vector *b)
 
 struct Vector *vec_sub(const struct Vector *a, const struct Vector *b)
 {
-    if (!a || !b) return NULL;
-    if (a->size != b->size) return NULL;
+    if (!a || !b) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_sub error: vector pointer is NULL\n");
+        return NULL;
+    }
+
+    if (!a->data || !b->size) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_sub error: vector data pointer is NULL\n");
+        return NULL;
+    }
+
+    if (a->size == 0 || b->size == 0) {
+        errno = EINVAL;
+        fprintf(stderr, "vec_sub error: vector size is zero\n");
+        return NULL;
+    }
 
     struct Vector *c = vec_alloc(a->size);
     if(!c){
@@ -1623,7 +1668,7 @@ struct Vector *vec_div_scalar(const struct Vector *v, double s)
     if (!new_vec) {
         errno = ENOMEM;
         fprintf(stderr,
-                "vec_div_scalar: allocation failed (%s)\n",
+                "vec_alloc: allocation failed (%s)\n",
                 strerror(errno));
         return NULL;
     }
@@ -1943,19 +1988,19 @@ double vec_corr(const struct Vector *a, const struct Vector *b)
 {
     if (!a || !b) {
         errno = EINVAL;
-        fprintf(stderr, "vec_cov error: vector pointer is NULL\n");
+        fprintf(stderr, "vec_corr error: vector pointer is NULL\n");
         return -1;
     }
 
     if (!a->data || !b->size) {
         errno = EINVAL;
-        fprintf(stderr, "vec_cov error: vector data pointer is NULL\n");
+        fprintf(stderr, "vec_corr error: vector data pointer is NULL\n");
         return -1;
     }
 
     if (a->size == 0 || b->size == 0) {
         errno = EINVAL;
-        fprintf(stderr, "vec_cov error: vector size is zero\n");
+        fprintf(stderr, "vec_corr error: vector size is zero\n");
         return -1;
     }
 
@@ -1992,24 +2037,30 @@ struct Vector *vec_gt(const struct Vector *a, const struct Vector *b)
 {
     if (!a || !b) {
         errno = EINVAL;
-        fprintf(stderr, "vec_cov error: vector pointer is NULL\n");
+        fprintf(stderr, "vec_gt error: vector pointer is NULL\n");
         return NULL;
     }
 
     if (!a->data || !b->size) {
         errno = EINVAL;
-        fprintf(stderr, "vec_cov error: vector data pointer is NULL\n");
+        fprintf(stderr, "vec_gt error: vector data pointer is NULL\n");
         return NULL;
     }
 
     if (a->size == 0 || b->size == 0) {
         errno = EINVAL;
-        fprintf(stderr, "vec_cov error: vector size is zero\n");
+        fprintf(stderr, "vec_gt error: vector size is zero\n");
         return NULL;
     }
 
     struct Vector *out = vec_alloc(a->size);
-    if (!out) return NULL;
+    if (!out){
+        errno = ENOMEM;
+        fprintf(stderr, "vec_alloc error: failed to allocate memory (%s)\n",
+        strerror(errno));
+
+        return NULL;
+    }
 
     for (size_t i = 0; i < a->size; ++i)
         out->data[i] = (a->data[i] > b->data[i]) ? 1.0 : 0.0;
@@ -2022,19 +2073,19 @@ struct Vector *vec_lt(const struct Vector *a, const struct Vector *b)
 {
     if (!a || !b) {
         errno = EINVAL;
-        fprintf(stderr, "vec_cov error: vector pointer is NULL\n");
+        fprintf(stderr, "vec_lt error: vector pointer is NULL\n");
         return NULL;
     }
 
     if (!a->data || !b->size) {
         errno = EINVAL;
-        fprintf(stderr, "vec_cov error: vector data pointer is NULL\n");
+        fprintf(stderr, "vec_lt error: vector data pointer is NULL\n");
         return NULL;
     }
 
     if (a->size == 0 || b->size == 0) {
         errno = EINVAL;
-        fprintf(stderr, "vec_cov error: vector size is zero\n");
+        fprintf(stderr, "vec_lt error: vector size is zero\n");
         return NULL;
     }
 
