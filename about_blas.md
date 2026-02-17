@@ -15,4 +15,6 @@
 | Copy      | `dcopy`  |
 
 
+```
 mingw32-make
+```
