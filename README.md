@@ -10,10 +10,10 @@
 
 ## Features
 
-* ✨ Efficient vector creation utilities (zeros, ones, linspace, random, etc.)
-* 🚀 BLAS-accelerated vector arithmetic and dot products
-* 📦 Comprehensive mathematical and aggregation operations
-* 🔧 In-place and out-of-place computation APIs for performance control
+* Efficient vector creation utilities (zeros, ones, linspace, random, etc.)
+* BLAS-accelerated vector arithmetic and dot products
+* Comprehensive mathematical and aggregation operations
+*  In-place and out-of-place computation APIs for performance control
 
 
 ## Installation
@@ -128,3 +128,4 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 * Masking / filtering utilities
 * Sorting and ranking functions
 * BLAS Level-2 matrix–vector support
+
